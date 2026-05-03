@@ -1,1 +1,34 @@
-top page
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ブロック崩し</title>
+  <style>
+    body {
+      margin: 0;
+      background: #1a1a2e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: sans-serif;
+      color: #fff;
+    }
+    canvas {
+      border: 2px solid #e94560;
+      background: #16213e;
+    }
+    #info {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="480" height="400"></canvas>
+  <div id="info">← → キーまたはマウスでパドルを操作</div>
+  <script src="main.js"></script>
+</body>
+</html>
