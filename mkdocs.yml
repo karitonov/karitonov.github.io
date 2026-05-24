@@ -2,7 +2,40 @@ site_name: ポートフォリオ
 nav:
   - Home: index.md
   - About: about.md
+  - その他の使い方:
+    - Extra1: extras/extra1.md
 theme:
-  name: readthedocs
+  # name: readthedocs
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  # font:
+  #   text: Noto Sans JP
+  #   code: Inconsolata
+extra:
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/
+      name: mebiusbox2 on Twitter
+    - icon: fontawesome/brands/github
+      link: https://github.com/karitonov
 extra_css:
   - stylesheets/style.css
+extra_javascript:
+  - js/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
