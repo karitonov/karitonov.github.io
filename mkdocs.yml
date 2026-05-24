@@ -1,0 +1,5 @@
+site_name: ポートフォリオ
+theme:
+  name: readthedocs
+extra_css:
+  - stylesheets/style.css
