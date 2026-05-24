@@ -1,37 +1,30 @@
-## Welcome to GitHub Pages
+# karitonov.github.io
 
-You can use the [editor on GitHub](https://github.com/karitonov/karitonov.github.io/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+MkDocs で構築したポートフォリオ・サイトです。
+GitHub Pages（`gh-pages` ブランチ）で公開しています。
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## 構成
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+docs/
+├── index.md          # トップページ（ポートフォリオ）
+├── about.md          # About ページ
+├── stylesheets/
+│   └── style.css     # カスタム CSS
+└── block/            # ブロック崩しゲーム（静的 HTML/JS）
+mkdocs.yml            # MkDocs 設定
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## ローカルプレビュー
 
-### Jekyll Themes
+```bash
+mkdocs serve
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/karitonov/karitonov.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+## デプロイ
 
-### Support or Contact
+```bash
+mkdocs gh-deploy
+```
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+`gh-pages` ブランチへビルド済みファイルを自動で push します。
