@@ -1,4 +1,7 @@
 site_name: ポートフォリオ
+nav:
+  - Home: index.md
+  - About: about.md
 theme:
   name: readthedocs
 extra_css:
