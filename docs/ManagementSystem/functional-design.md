@@ -180,7 +180,6 @@ interface Invoice {
   subtotal: number;                // 税抜合計（円）
   taxAmount: number;               // 消費税額（円）
   totalAmount: number;             // 税込合計（円）
-  paidAmount: number;              // 入金済合計（円）
   status: InvoiceStatus;           // 請求書状態
   notes?: string;                  // 備考
   qualifiedInvoiceNumber?: string; // 適格請求書発行事業者登録番号（T+13桁、発行時にスナップショット保存）
@@ -188,13 +187,12 @@ interface Invoice {
   updatedAt: Date;
 }
 
-type InvoiceStatus = 'DRAFT' | 'ISSUED' | 'PARTIAL_PAID' | 'PAID' | 'CANCELLED';
+type InvoiceStatus = 'DRAFT' | 'ISSUED' | 'CANCELLED';
 ```
 
 **制約**:
 - `invoiceNumber` は自動採番、ユニーク
-- `paidAmount` は入金登録ごとに自動更新
-- `status` は `paidAmount` と `totalAmount` から自動計算
+- 入金の有無は Customer 単位で `Σ Payment.amount` と `Σ Invoice.totalAmount` の差分で管理する（Invoice 個別には入金状態を持たない）
 
 ---
 
@@ -233,26 +231,8 @@ interface Payment {
 ```
 
 **制約**:
-- 入金登録時に FIFO で未払い Invoice へ自動配分（`InvoicePayment` に記録）
-- CANCELLED 請求書は配分対象外
-
----
-
-### エンティティ: InvoicePayment（入金配分）
-
-```typescript
-interface InvoicePayment {
-  id: string;                      // UUID
-  paymentId: string;               // FK: Payment
-  invoiceId: string;               // FK: Invoice
-  allocatedAmount: number;         // この入金からこの請求書に充当した金額（円）
-  createdAt: Date;
-}
-```
-
-**制約**:
-- 1つの Payment が複数の Invoice に分配される場合、行数分のレコードが作成される
-- Payment 削除時はこのテーブルのレコードを参照して Invoice.paidAmount を巻き戻す
+- 入金は顧客単位で記録し、特定の Invoice には紐づけない
+- 顧客の未回収残高 = `Σ Invoice.totalAmount (status=ISSUED)` − `Σ Payment.amount`
 
 ---
 
@@ -351,9 +331,7 @@ erDiagram
     Order }o--o| Invoice : billed_in
 
     Invoice ||--o{ InvoiceItem : contains
-    Invoice ||--o{ InvoicePayment : allocated_by
     Customer ||--o{ Payment : received_by
-    Payment ||--o{ InvoicePayment : allocates
 
     Customer {
         string id PK
@@ -411,7 +389,6 @@ erDiagram
         int subtotal
         int taxAmount
         int totalAmount
-        int paidAmount
         string status
         string qualifiedInvoiceNumber "nullable"
     }
@@ -431,13 +408,6 @@ erDiagram
         string customerId FK
         int amount
         date paidAt
-    }
-
-    InvoicePayment {
-        string id PK
-        string paymentId FK
-        string invoiceId FK
-        int allocatedAmount
     }
 
     DeliveryNote {
@@ -568,10 +538,9 @@ interface OrderListGridProps {
 
 | メソッド | パス | 説明 | 必要ロール |
 |---------|------|------|-----------|
-| GET | `/api/payments` | 発行済み請求書一覧取得（ISSUED / PARTIAL_PAID、入金管理画面用） | OWNER |
-| POST | `/api/payments` | 入金登録（customerId ベース、FIFO で自動配分） | OWNER |
-| DELETE | `/api/payments/[id]` | 入金削除（InvoicePayment を巻き戻して Invoice.paidAmount を再計算） | OWNER |
-| GET | `/api/payments/customers/[customerId]/ledger` | 顧客の売掛金元帳データ取得（前月繰越・売上・入金・差引残高） | OWNER |
+| GET | `/api/payments/customers/[customerId]/ledger` | 顧客の売掛金元帳データ取得（`from`/`to` パラメータで日付範囲指定） | OWNER |
+| POST | `/api/payments` | 入金登録（customerId ベース。Payment を顧客単位で記録） | OWNER |
+| DELETE | `/api/payments/[id]` | 入金削除（Payment レコードを削除） | OWNER |
 | GET | `/api/invoices/[id]/receipt-pdf` | 領収書PDF生成・取得 | OWNER |
 
 #### 帳票 API
@@ -707,52 +676,20 @@ NNNN は月ごとにリセットする4桁連番
 
 #### PaymentService（入金管理サービス）
 
-**責務**: 顧客単位の入金登録・FIFO配分・入金削除による巻き戻し
+**責務**: 顧客単位の入金登録・削除
 
 ```typescript
-class PaymentService {
-  // 入金登録: 顧客単位で受け取り、FIFO で未払い Invoice へ自動配分
-  registerPayment(
-    customerId: string,
-    amount: number,
-    paidAt: Date,
-    paymentMethod: PaymentMethod
-  ): Promise<{ payment: Payment; allocations: InvoicePayment[] }>;
-
-  // 入金削除: InvoicePayment を参照して Invoice.paidAmount を巻き戻す
-  deletePayment(paymentId: string): Promise<void>;
-
-  // FIFO配分（内部）
-  private allocateFifo(
-    tx: PrismaTransaction,
-    paymentId: string,
-    customerId: string,
-    remainingAmount: number
-  ): Promise<InvoicePayment[]>;
-
-  // ステータス再計算（内部）
-  private recalculateStatus(paidAmount: number, totalAmount: number): InvoiceStatus;
-}
+async function registerPayment(input: RegisterPaymentInput): Promise<void>;
+async function deletePayment(paymentId: string): Promise<void>;
 ```
 
-**FIFO配分ロジック**:
+**残高計算**:
 ```
-1. 顧客の Invoice を issueDate ASC・status IN (ISSUED, PARTIAL_PAID) で取得
-2. 残配分額 > 0 の間ループ:
-   a. 充当額 = min(残配分額, invoice.totalAmount - invoice.paidAmount)
-   b. InvoicePayment { paymentId, invoiceId, allocatedAmount: 充当額 } を作成
-   c. invoice.paidAmount += 充当額
-   d. invoice.status を再計算
-   e. 残配分額 -= 充当額
-3. 全処理を $transaction で実行
+顧客の未回収残高 = Σ Invoice.totalAmount (status = ISSUED)
+               − Σ Payment.amount
 ```
 
-**ステータス自動計算**:
-```
-paidAmount === 0                          → ISSUED（未払い）
-0 < paidAmount < totalAmount              → PARTIAL_PAID（一部入金）
-paidAmount >= totalAmount                 → PAID（入金済み）
-```
+Invoice 個別の入金状態は持たない。売掛金元帳（`/payments/customers/[customerId]`）で顧客単位の残高を時系列表示する。
 
 ---
 
@@ -846,23 +783,20 @@ sequenceDiagram
     participant SVC as PaymentService
     participant DB as Prisma/SQLite
 
-    Owner->>ListUI: 入金管理画面を開く
-    ListUI->>API: GET /api/payments（ISSUED/PARTIAL_PAID一覧）
-    API-->>ListUI: 発行済み請求書一覧
+    Owner->>ListUI: 入金管理画面を開く（日付範囲指定）
+    ListUI->>DB: 顧客ごとの発行済み Invoice 合計・入金合計を集計
+    DB-->>ListUI: 顧客別残高サマリー
     Owner->>ListUI: [入金] ボタンをクリック（対象顧客行）
     ListUI->>LedgerUI: /payments/customers/[customerId] へ遷移
 
     LedgerUI->>API: GET /api/payments/customers/[customerId]/ledger
-    API-->>LedgerUI: 前月繰越・売上・入金・差引残高
+    API-->>LedgerUI: 前期繰越・売上・入金・差引残高
 
     Owner->>LedgerUI: 入金額・入金日・入金方法を入力
     Owner->>LedgerUI: [登録] クリック
     LedgerUI->>API: POST /api/payments { customerId, amount, paidAt }
     API->>SVC: registerPayment(customerId, amount, paidAt)
-    SVC->>DB: Payment を保存（$transaction）
-    SVC->>SVC: allocateFifo(): 未払い Invoice を issueDate ASC で取得
-    SVC->>DB: InvoicePayment レコードを作成（充当分ごと）
-    SVC->>DB: Invoice.paidAmount を更新・status を再計算
+    SVC->>DB: Payment を保存（顧客単位・FIFO なし）
     DB-->>SVC: 更新済みデータ
     SVC-->>API: payment + allocations
     API-->>LedgerUI: 200 OK
@@ -907,8 +841,8 @@ stateDiagram-v2
 | 請求管理 | `/invoices` | 顧客別未請求注文サマリー一覧・[請求]ボタン |
 | 請求書詳細 | `/invoices/[id]` | 請求書詳細・PDF出力 |
 | 請求書生成 | `/invoices/new` | 顧客・対象注文確認→請求書生成（customerId クエリで顧客・期間プリセット） |
-| 入金管理 | `/payments` | 発行済み請求書一覧（ISSUED/PARTIAL_PAID）・[入金]ボタン |
-| 売掛金元帳 | `/payments/customers/[customerId]` | 顧客の売掛金元帳（前月繰越・売上・入金・差引残高）・入金登録フォーム |
+| 入金管理 | `/payments` | 顧客別売掛金サマリー（発行日・入金日の期間・前期残高・期間発行額・期間入金額・残高・締め日）・[入金]ボタン |
+| 売掛金元帳 | `/payments/customers/[customerId]` | 顧客の売掛金元帳（日付範囲指定・前期繰越・売上・入金・差引残高）・入金登録フォーム |
 | ユーザー管理 | `/users` | ユーザー一覧・新規作成・有効/無効切替（OWNERのみ） |
 
 ---
@@ -1086,49 +1020,57 @@ function calculateOrderItemTotals(
 ### 入金管理画面レイアウト（`/payments`）
 
 ```
-┌─────────────────┬──────────┬────────────────┬──────────┬────────┬─────────┬────────┐
-│ 請求書番号       │ 顧客     │ 請求期間        │ 請求金額  │ 入金済 │ 残高    │        │
-├─────────────────┼──────────┼────────────────┼──────────┼────────┼─────────┼────────┤
-│ INV-202606-0001 │ (株)XYZ  │ 06/01〜06/30   │ ¥84,000  │    ¥0  │ ¥84,000 │ [入金] │
-│ INV-202605-0002 │ (株)PQR  │ 05/01〜05/31   │ ¥140,000 │    ¥0  │¥140,000 │ [入金] │
-└─────────────────┴──────────┴────────────────┴──────────┴────────┴─────────┴────────┘
+← [2026-06-01] 〜 [2026-06-30] →   [残高あり ▼]
+
+発行日・入金日の期間：← [2026-06-01] 〜 [2026-06-30] →   [残高あり ▼]
+
+┌──────────┬────────┬──────────┬────────────┬────────────┬──────────┬──────────┬────────┐
+│ 顧客名   │ 締め日 │ 前期残高  │ 期間発行額  │ 期間入金額  │ 残高     │ ステータス│        │
+├──────────┼────────┼──────────┼────────────┼────────────┼──────────┼──────────┼────────┤
+│ (株)XYZ  │月末締め│   ¥0     │   ¥84,000  │      ¥0    │ ¥84,000  │ 未入金   │ [入金] │
+│ (株)PQR  │15日締め│¥50,000   │  ¥140,000  │  ¥190,000  │    ¥0    │ 入金済み │ [詳細] │
+└──────────┴────────┴──────────┴──────────┴──────────┴──────────┴──────────┴────────┘
 ```
 
-- ISSUED / PARTIAL_PAID の請求書のみ表示
-- [入金] → `/payments/customers/[customerId]` へ遷移
+- 顧客単位のサマリー表示（請求書単位ではない）
+- **発行日・入金日の期間** で絞り込み。`←` / `→` で1ヶ月シフト、直接入力も可能
+- **前期残高**: 期間開始前の累計残高（= Σ Invoice.totalAmount − Σ Payment.amount）
+- **期間発行額**: 選択期間内に発行した Invoice の合計（Invoice.issueDate が期間内）
+- **期間入金額**: 選択期間内に受けた Payment の合計（Payment.paidAt が期間内）
+- **残高**: 前期残高 + 期間発行額 − 期間入金額
+- **ステータス**: 全期間の累計残高で判断（未入金 / 一部入金 / 入金済み）
+- 残高 > 0 の顧客に [入金]、残高 = 0 の顧客に [詳細]
+- [入金] / [詳細] → `/payments/customers/[customerId]?from=...&to=...` へ遷移
 
 ### 売掛金元帳・入金処理画面レイアウト（`/payments/customers/[customerId]`）
 
 ```
-(株)XYZ  売掛金元帳
-┌────────────┬────────────────────┬──────────┬──────────┬──────────┐
-│ 日付       │ 摘要               │ 売上     │ 入金     │ 差引残高 │
-├────────────┼────────────────────┼──────────┼──────────┼──────────┤
-│            │ 前月繰越           │          │          │ ¥105,000 │
-│ 06/03      │ A商品 × 20        │ ¥20,000  │          │ ¥125,000 │
-│ 06/03      │ B商品 × 10        │ ¥15,000  │          │ ¥140,000 │
-│ 06/15      │ C商品 × 10        │ ¥40,000  │          │ ¥180,000 │
-│ 06/05      │ 入金               │          │ ¥105,000 │  ¥75,000 │
-│ 06/24      │ A商品 × 9         │  ¥9,000  │          │  ¥84,000 │
-├────────────┼────────────────────┼──────────┼──────────┼──────────┤
-│            │ 次月繰越           │          │          │  ¥84,000 │
-└────────────┴────────────────────┴──────────┴──────────┴──────────┘
+(株)XYZ  売掛金元帳         ← [2026-06-01] 〜 [2026-06-30] →
+┌────────────┬──────────────────────────┬──────────┬──────────┬──────────┐
+│ 日付       │ 摘要                      │ 売上     │ 入金     │ 差引残高 │
+├────────────┼──────────────────────────┼──────────┼──────────┼──────────┤
+│            │ 前期繰越                  │          │          │ ¥105,000 │
+│ 06/03      │ INV-202606-0001（5/7〜6/6）│ ¥84,000  │          │ ¥189,000 │
+│ 06/05      │ 入金                      │          │ ¥105,000 │  ¥84,000 │
+├────────────┼──────────────────────────┼──────────┼──────────┼──────────┤
+│            │ 期末残高                  │          │          │  ¥84,000 │
+└────────────┴──────────────────────────┴──────────┴──────────┴──────────┘
 
 入金登録:  日付 [____]  金額 [________]  入金方法 [現金▼]  備考 [________]  [登録]
 ```
 
-- 売上行 = 当月の OrderItem（日付・商品名・数量）
-- 入金行 = 当月の Payment（入金日・金額）、[削除] ボタン付き
-- 差引残高 = 前月繰越 + 売上累計 − 入金累計（行ごとに計算）
-- 前月繰越 = 前月末時点の未払い Invoice 残高の合計
+- 売上行 = 期間内に発行された Invoice（発行日・請求書番号・対象期間）
+- 入金行 = 期間内の Payment（入金日・金額）、[削除] ボタン付き
+- 差引残高 = 前期繰越 + 売上累計 − 入金累計
+- 前期繰越 = 範囲開始前の `Σ Invoice.totalAmount − Σ Payment.amount`
+- 日付範囲は `←` / `→` で変更可能（入金管理画面の選択範囲を引き継ぐ）
 
 ### カラーコーディング
 
 | 用途 | 色 | 適用箇所 |
 |-----|----|----|
-| 入金済み | 緑 (green-600) | 請求書ステータスバッジ |
-| 一部入金 | 黄 (yellow-500) | 請求書ステータスバッジ |
-| 未払い | 赤 (red-500) | 請求書ステータスバッジ |
+| 入金済み | 緑 (green-600) | 入金管理ステータスバッジ・残高 |
+| 未払い | 赤 (red-500) | 入金管理残高 |
 | 顧客別単価適用中 | 青 (blue-500) | 単価フィールドの背景 |
 | 手動単価入力中 | オレンジ (orange-400) | 単価フィールドの背景 |
 | 標準単価適用中 | グレー (gray-400) | 単価フィールドの背景 |

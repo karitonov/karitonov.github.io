@@ -131,7 +131,7 @@
 
 **英語表記**: Payment
 
-**関連用語**: [請求書](#請求書-invoice)、[領収書](#領収書)、[売掛](#売掛-accounts-receivable)
+**関連用語**: [請求書](#請求書-invoice)、[領収書](#領収書)、[売掛](#売掛)
 
 ---
 
@@ -398,7 +398,7 @@ return 'PAID';  // paidAmount >= totalAmount
 
 ## データモデル用語
 
-### DeliveryNote (納品書エンティティ)
+### DeliveryNote（納品書エンティティ）
 
 **定義**: 納品書データを表すエンティティ。1注文に対して1納品書が対応する（1対1）
 
@@ -414,7 +414,7 @@ return 'PAID';  // paidAmount >= totalAmount
 
 ---
 
-### User (ユーザーエンティティ)
+### User（ユーザーエンティティ）
 
 **定義**: システムにログインするユーザーを表すエンティティ。STAFF と OWNER の2ロールが存在する
 
@@ -440,7 +440,7 @@ return 'PAID';  // paidAmount >= totalAmount
 
 ---
 
-### SystemSettings (システム設定エンティティ)
+### SystemSettings（システム設定エンティティ）
 
 **定義**: 店舗全体の設定を保持するシングルトンエンティティ。レコードは常に1件（`id = 'default'`）
 

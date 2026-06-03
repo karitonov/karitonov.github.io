@@ -84,7 +84,7 @@ function resolveUnitPrice(productId, customerId) {
 ```typescript
 // ✅ ユニオン型はtype aliasで定義
 type TaxType = 'EXCLUSIVE' | 'INCLUSIVE';
-type InvoiceStatus = 'DRAFT' | 'ISSUED' | 'PARTIAL_PAID' | 'PAID' | 'CANCELLED';
+type InvoiceStatus = 'DRAFT' | 'ISSUED' | 'CANCELLED';
 
 // ✅ オブジェクト型はinterfaceで定義（拡張性のため）
 interface CreateOrderRequest {
@@ -455,16 +455,40 @@ export const config = { matcher: ['/((?!api/auth|_next/static|_next/image|favico
 
 ### ブランチ戦略
 
+ブランチ名は**作成経路**によって使い分ける。
+
+#### 会話ベース（Claude Code との対話で実装する場合）
+
+Conventional Commits の type に揃えた短いプレフィックスを使う。
+
 ```
 main
-  └─ feature/[機能名]    # 新機能
+  └─ feat/[機能名]       # 新機能
   └─ fix/[修正内容]      # バグ修正
-  └─ refactor/[対象]     # リファクタリング
+  └─ refactor/[対象]     # リファクタリング・設計変更
+  └─ chore/[対象]        # ツール・設定・スクリプト変更
   └─ docs/[対象]         # ドキュメント更新
 ```
 
+例：`feat/unified-invoice-list`、`refactor/simplify-payment`
+
+#### ヘッドレス自動実行（`run-issue.ps1` / `run-prompt.ps1` による場合）
+
+Claude が自律実行したブランチであることを示す `claude/` プレフィックスを使う。
+
+```
+main
+  └─ claude/issue-N-YYYYMMDD      # run-issue.ps1（GitHub Issue 起点）
+  └─ claude/YYYYMMDD-[概要]       # run-prompt.ps1（プロンプト直接実行）
+```
+
+例：`claude/issue-47-20260603`、`claude/20260603-simplify-payment`
+
+> `claude/` プレフィックスは「Claude が自動で作成・コミットしたブランチ」の目印。
+> レビュー時に人間が変更内容を意識的に確認するためのシグナルとして機能する。
+
 **このプロジェクトは単独開発を想定しているため `develop` ブランチは使用しない。**
-feature ブランチから直接 `main` にマージする。
+各ブランチから直接 `main` にマージする。
 
 ### コミットメッセージ規約
 

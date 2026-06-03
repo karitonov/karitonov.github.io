@@ -209,7 +209,13 @@ app/api/
 │       └── receipt-pdf/
 │           └── route.ts          # GET（領収書PDF）
 ├── payments/
-│   └── route.ts                  # GET / POST
+│   ├── route.ts                  # POST（入金登録）
+│   ├── [id]/
+│   │   └── route.ts              # DELETE（入金削除）
+│   └── customers/
+│       └── [customerId]/
+│           └── ledger/
+│               └── route.ts      # GET（売掛金元帳、from/to パラメータ）
 ├── production-summary/
 │   ├── route.ts                  # GET（製造一覧 JSONデータ）
 │   └── pdf/

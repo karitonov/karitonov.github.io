@@ -88,7 +88,6 @@ erDiagram
         Int    subtotal
         Int    taxAmount
         Int    totalAmount
-        Int    paidAmount
         String status
         String notes
         String qualifiedInvoiceNumber
@@ -117,14 +116,6 @@ erDiagram
         DateTime paidAt
         String paymentMethod
         String notes
-        DateTime createdAt
-    }
-
-    InvoicePayment {
-        String id PK
-        String paymentId  FK
-        String invoiceId  FK
-        Int    allocatedAmount
         DateTime createdAt
     }
 
@@ -167,7 +158,7 @@ erDiagram
     Customer    ||--o{ Order                 : "発注する"
     Customer    ||--o{ CustomerProductPrice  : "個別単価を持つ"
     Customer    ||--o{ Invoice               : "請求される"
-    Customer    ||--o{ Payment               : "入金する"
+    Customer    ||--o{ Payment               : "入金を受ける"
     Product     ||--o{ OrderItem             : "注文明細に含まれる"
     Product     ||--o{ CustomerProductPrice  : "個別単価を持つ"
     Order       ||--o{ OrderItem             : "明細を含む"
@@ -176,8 +167,6 @@ erDiagram
     Order       }o--o| Invoice               : "請求書にまとめられる"
     OrderItem   ||--o{ InvoiceItem           : "請求明細になる"
     Invoice     ||--o{ InvoiceItem           : "明細を含む"
-    Invoice     ||--o{ InvoicePayment        : "配分を受ける"
-    Payment     ||--o{ InvoicePayment        : "請求書へ配分する"
 ```
 
 ---
@@ -317,8 +306,7 @@ erDiagram
 | subtotal | Int | NOT NULL | 小計（税抜合計） |
 | taxAmount | Int | NOT NULL | 消費税合計 |
 | totalAmount | Int | NOT NULL | 税込合計 |
-| paidAmount | Int | DEFAULT 0 | 入金済み金額 |
-| status | String | NOT NULL, INDEX | `DRAFT` \| `ISSUED` \| `PARTIAL_PAID` \| `PAID` \| `CANCELLED` |
+| status | String | NOT NULL, INDEX | `DRAFT` \| `ISSUED` \| `CANCELLED` |
 | notes | String? | | 備考 |
 | qualifiedInvoiceNumber | String? | | 適格請求書発行事業者登録番号（発行時スナップショット） |
 | createdAt | DateTime | DEFAULT now() | 作成日時 |
@@ -350,33 +338,17 @@ erDiagram
 
 ### Payment（入金）
 
-顧客単位の入金ヘッダー。1回の入金操作につき1レコード。具体的な請求書への充当は `InvoicePayment` で管理する。
+顧客単位の入金記録。1回の入金操作につき1レコード。特定の Invoice への紐づけは行わず、顧客全体の残高管理で使用する。
 
 | カラム | 型 | 制約 | 説明 |
 |--------|-----|------|------|
 | id | String | PK, UUID | 主キー |
 | customerId | String | FK → Customer.id | 入金顧客 |
-| amount | Int | NOT NULL | 入金総額（円） |
+| amount | Int | NOT NULL | 入金額（円） |
 | paidAt | DateTime | NOT NULL | 入金日時 |
 | paymentMethod | String | NOT NULL | `CASH` \| `TRANSFER` \| `AUTO_DEBIT` \| `OTHER` |
 | notes | String? | | 備考 |
 | createdAt | DateTime | DEFAULT now() | 作成日時 |
-
----
-
-### InvoicePayment（入金配分）
-
-1回の入金（Payment）を複数の請求書（Invoice）へ FIFO で配分した記録。入金削除時の巻き戻しに使用する。
-
-| カラム | 型 | 制約 | 説明 |
-|--------|-----|------|------|
-| id | String | PK, UUID | 主キー |
-| paymentId | String | FK → Payment.id, INDEX | 入金 |
-| invoiceId | String | FK → Invoice.id, INDEX | 充当先請求書 |
-| allocatedAmount | Int | NOT NULL | この入金からこの請求書に充当した金額（円） |
-| createdAt | DateTime | DEFAULT now() | 作成日時 |
-
-**インデックス**: `paymentId`, `invoiceId`
 
 ---
 
@@ -454,12 +426,12 @@ erDiagram
 
 ### Invoice.status（請求書ステータス）
 
+入金状態は Invoice 個別に追跡しない。残高管理は顧客単位（売掛金元帳）で行う。
+
 | 値 | 意味 | 遷移先 |
 |----|------|--------|
 | `DRAFT` | 下書き | `ISSUED` |
-| `ISSUED` | 発行済み | `PARTIAL_PAID`, `PAID`, `CANCELLED` |
-| `PARTIAL_PAID` | 一部入金 | `PAID`, `CANCELLED` |
-| `PAID` | 入金済み | （終端） |
+| `ISSUED` | 発行済み | `CANCELLED` |
 | `CANCELLED` | キャンセル | （終端） |
 
 ### User.role（ユーザーロール）
@@ -495,11 +467,9 @@ OrderItem の `productName`, `unitPrice`, `taxRate` は注文時点の値をそ�
 - 請求書キャンセル時は `Order.invoiceId` を `null` に戻す（未請求状態に復帰）
 - 1つの請求書には複数の注文が紐づく（`Invoice ||--o{ Order`）
 
-### Payment と Invoice の関係（FIFO配分）
+### Payment と Invoice の関係
 
-- `Payment` は顧客単位（`customerId`）で記録する。特定の請求書には直接紐づかない
-- 入金登録時に `PaymentService.allocateFifo()` が自動実行され、未払い Invoice を `issueDate ASC` の順に充当する
-- 配分結果は `InvoicePayment` テーブルに記録される（1入金が複数請求書に分かれる場合は複数行）
-- `Invoice.paidAmount` は配分後に更新され、`status` は `paidAmount` と `totalAmount` の比較で自動計算される
-- 入金削除時は `InvoicePayment` を参照して `Invoice.paidAmount` を逆算で巻き戻す
-- `CANCELLED` 状態の Invoice は FIFO 配分の対象外
+- `Payment` は顧客単位（`customerId`）で記録する。特定の Invoice への紐づけは行わない
+- 顧客の未回収残高 = `Σ Invoice.totalAmount (status = ISSUED)` − `Σ Payment.amount`
+- Invoice の `status` は `ISSUED` / `CANCELLED` のみ。入金によって自動更新されない
+- 入金状況は売掛金元帳（`/payments/customers/[customerId]`）で時系列表示する
