@@ -547,17 +547,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#エンティティ-invoicepayment入金配分" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        エンティティ: InvoicePayment（入金配分）
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#エンティティ-deliverynote納品書" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1565,17 +1554,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#エンティティ-invoicepayment入金配分" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        エンティティ: InvoicePayment（入金配分）
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#エンティティ-deliverynote納品書" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2413,7 +2391,6 @@
 <span class="w">  </span><span class="nx">subtotal</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">                </span><span class="c1">// 税抜合計（円）</span>
 <span class="w">  </span><span class="nx">taxAmount</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">               </span><span class="c1">// 消費税額（円）</span>
 <span class="w">  </span><span class="nx">totalAmount</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">             </span><span class="c1">// 税込合計（円）</span>
-<span class="w">  </span><span class="nx">paidAmount</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">              </span><span class="c1">// 入金済合計（円）</span>
 <span class="w">  </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="kt">InvoiceStatus</span><span class="p">;</span><span class="w">           </span><span class="c1">// 請求書状態</span>
 <span class="w">  </span><span class="nx">notes?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w">                  </span><span class="c1">// 備考</span>
 <span class="w">  </span><span class="nx">qualifiedInvoiceNumber?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"> </span><span class="c1">// 適格請求書発行事業者登録番号（T+13桁、発行時にスナップショット保存）</span>
@@ -2421,12 +2398,11 @@
 <span class="w">  </span><span class="nx">updatedAt</span><span class="o">:</span><span class="w"> </span><span class="kt">Date</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="kr">type</span><span class="w"> </span><span class="nx">InvoiceStatus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;DRAFT&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;ISSUED&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;PARTIAL_PAID&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;PAID&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;CANCELLED&#39;</span><span class="p">;</span>
+<span class="kr">type</span><span class="w"> </span><span class="nx">InvoiceStatus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;DRAFT&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;ISSUED&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;CANCELLED&#39;</span><span class="p">;</span>
 </code></pre></div>
 <p><strong>制約</strong>:
 - <code>invoiceNumber</code> は自動採番、ユニーク
-- <code>paidAmount</code> は入金登録ごとに自動更新
-- <code>status</code> は <code>paidAmount</code> と <code>totalAmount</code> から自動計算</p>
+- 入金の有無は Customer 単位で <code>Σ Payment.amount</code> と <code>Σ Invoice.totalAmount</code> の差分で管理する（Invoice 個別には入金状態を持たない）</p>
 <hr />
 <h3 id="エンティティ-invoiceitem請求明細">エンティティ: InvoiceItem（請求明細）</h3>
 <div class="highlight"><pre><span></span><code><span class="kd">interface</span><span class="w"> </span><span class="nx">InvoiceItem</span><span class="w"> </span><span class="p">{</span>
@@ -2456,21 +2432,8 @@
 <span class="p">}</span>
 </code></pre></div>
 <p><strong>制約</strong>:
-- 入金登録時に FIFO で未払い Invoice へ自動配分（<code>InvoicePayment</code> に記録）
-- CANCELLED 請求書は配分対象外</p>
-<hr />
-<h3 id="エンティティ-invoicepayment入金配分">エンティティ: InvoicePayment（入金配分）</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">interface</span><span class="w"> </span><span class="nx">InvoicePayment</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w">                      </span><span class="c1">// UUID</span>
-<span class="w">  </span><span class="nx">paymentId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w">               </span><span class="c1">// FK: Payment</span>
-<span class="w">  </span><span class="nx">invoiceId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w">               </span><span class="c1">// FK: Invoice</span>
-<span class="w">  </span><span class="nx">allocatedAmount</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w">         </span><span class="c1">// この入金からこの請求書に充当した金額（円）</span>
-<span class="w">  </span><span class="nx">createdAt</span><span class="o">:</span><span class="w"> </span><span class="kt">Date</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p><strong>制約</strong>:
-- 1つの Payment が複数の Invoice に分配される場合、行数分のレコードが作成される
-- Payment 削除時はこのテーブルのレコードを参照して Invoice.paidAmount を巻き戻す</p>
+- 入金は顧客単位で記録し、特定の Invoice には紐づけない
+- 顧客の未回収残高 = <code>Σ Invoice.totalAmount (status=ISSUED)</code> − <code>Σ Payment.amount</code></p>
 <hr />
 <h3 id="エンティティ-deliverynote納品書">エンティティ: DeliveryNote（納品書）</h3>
 <div class="highlight"><pre><span></span><code><span class="kd">interface</span><span class="w"> </span><span class="nx">DeliveryNote</span><span class="w"> </span><span class="p">{</span>
@@ -2546,9 +2509,7 @@
     Order }o--o| Invoice : billed_in
 
     Invoice ||--o{ InvoiceItem : contains
-    Invoice ||--o{ InvoicePayment : allocated_by
     Customer ||--o{ Payment : received_by
-    Payment ||--o{ InvoicePayment : allocates
 
     Customer {
         string id PK
@@ -2606,7 +2567,6 @@
         int subtotal
         int taxAmount
         int totalAmount
-        int paidAmount
         string status
         string qualifiedInvoiceNumber &quot;nullable&quot;
     }
@@ -2626,13 +2586,6 @@
         string customerId FK
         int amount
         date paidAt
-    }
-
-    InvoicePayment {
-        string id PK
-        string paymentId FK
-        string invoiceId FK
-        int allocatedAmount
     }
 
     DeliveryNote {
@@ -2885,26 +2838,20 @@
 <tbody>
 <tr>
 <td>GET</td>
-<td><code>/api/payments</code></td>
-<td>発行済み請求書一覧取得（ISSUED / PARTIAL_PAID、入金管理画面用）</td>
+<td><code>/api/payments/customers/[customerId]/ledger</code></td>
+<td>顧客の売掛金元帳データ取得（<code>from</code>/<code>to</code> パラメータで日付範囲指定）</td>
 <td>OWNER</td>
 </tr>
 <tr>
 <td>POST</td>
 <td><code>/api/payments</code></td>
-<td>入金登録（customerId ベース、FIFO で自動配分）</td>
+<td>入金登録（customerId ベース。Payment を顧客単位で記録）</td>
 <td>OWNER</td>
 </tr>
 <tr>
 <td>DELETE</td>
 <td><code>/api/payments/[id]</code></td>
-<td>入金削除（InvoicePayment を巻き戻して Invoice.paidAmount を再計算）</td>
-<td>OWNER</td>
-</tr>
-<tr>
-<td>GET</td>
-<td><code>/api/payments/customers/[customerId]/ledger</code></td>
-<td>顧客の売掛金元帳データ取得（前月繰越・売上・入金・差引残高）</td>
+<td>入金削除（Payment レコードを削除）</td>
 <td>OWNER</td>
 </tr>
 <tr>
@@ -3114,46 +3061,15 @@ NNNN は月ごとにリセットする4桁連番
 </code></pre></div></p>
 <hr />
 <h4 id="paymentservice入金管理サービス">PaymentService（入金管理サービス）</h4>
-<p><strong>責務</strong>: 顧客単位の入金登録・FIFO配分・入金削除による巻き戻し</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nx">PaymentService</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="c1">// 入金登録: 顧客単位で受け取り、FIFO で未払い Invoice へ自動配分</span>
-<span class="w">  </span><span class="nx">registerPayment</span><span class="p">(</span>
-<span class="w">    </span><span class="nx">customerId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">amount</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">paidAt</span><span class="o">:</span><span class="w"> </span><span class="kt">Date</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">paymentMethod</span><span class="o">:</span><span class="w"> </span><span class="kt">PaymentMethod</span>
-<span class="w">  </span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="p">{</span><span class="w"> </span><span class="nx">payment</span><span class="o">:</span><span class="w"> </span><span class="kt">Payment</span><span class="p">;</span><span class="w"> </span><span class="nx">allocations</span><span class="o">:</span><span class="w"> </span><span class="kt">InvoicePayment</span><span class="p">[]</span><span class="w"> </span><span class="p">}</span><span class="o">&gt;</span><span class="p">;</span>
-
-<span class="w">  </span><span class="c1">// 入金削除: InvoicePayment を参照して Invoice.paidAmount を巻き戻す</span>
-<span class="w">  </span><span class="nx">deletePayment</span><span class="p">(</span><span class="nx">paymentId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="ow">void</span><span class="o">&gt;</span><span class="p">;</span>
-
-<span class="w">  </span><span class="c1">// FIFO配分（内部）</span>
-<span class="w">  </span><span class="k">private</span><span class="w"> </span><span class="nx">allocateFifo</span><span class="p">(</span>
-<span class="w">    </span><span class="nx">tx</span><span class="o">:</span><span class="w"> </span><span class="kt">PrismaTransaction</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">paymentId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">customerId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">remainingAmount</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span>
-<span class="w">  </span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="nx">InvoicePayment</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">;</span>
-
-<span class="w">  </span><span class="c1">// ステータス再計算（内部）</span>
-<span class="w">  </span><span class="k">private</span><span class="w"> </span><span class="nx">recalculateStatus</span><span class="p">(</span><span class="nx">paidAmount</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">,</span><span class="w"> </span><span class="nx">totalAmount</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nx">InvoiceStatus</span><span class="p">;</span>
-<span class="p">}</span>
+<p><strong>責務</strong>: 顧客単位の入金登録・削除</p>
+<div class="highlight"><pre><span></span><code><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">registerPayment</span><span class="p">(</span><span class="nx">input</span><span class="o">:</span><span class="w"> </span><span class="kt">RegisterPaymentInput</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="ow">void</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">deletePayment</span><span class="p">(</span><span class="nx">paymentId</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="ow">void</span><span class="o">&gt;</span><span class="p">;</span>
 </code></pre></div>
-<p><strong>FIFO配分ロジック</strong>:
-<div class="highlight"><pre><span></span><code>1. 顧客の Invoice を issueDate ASC・status IN (ISSUED, PARTIAL_PAID) で取得
-2. 残配分額 &gt; 0 の間ループ:
-   a. 充当額 = min(残配分額, invoice.totalAmount - invoice.paidAmount)
-   b. InvoicePayment { paymentId, invoiceId, allocatedAmount: 充当額 } を作成
-   c. invoice.paidAmount += 充当額
-   d. invoice.status を再計算
-   e. 残配分額 -= 充当額
-3. 全処理を $transaction で実行
+<p><strong>残高計算</strong>:
+<div class="highlight"><pre><span></span><code>顧客の未回収残高 = Σ Invoice.totalAmount (status = ISSUED)
+               − Σ Payment.amount
 </code></pre></div></p>
-<p><strong>ステータス自動計算</strong>:
-<div class="highlight"><pre><span></span><code>paidAmount === 0                          → ISSUED（未払い）
-0 &lt; paidAmount &lt; totalAmount              → PARTIAL_PAID（一部入金）
-paidAmount &gt;= totalAmount                 → PAID（入金済み）
-</code></pre></div></p>
+<p>Invoice 個別の入金状態は持たない。売掛金元帳（<code>/payments/customers/[customerId]</code>）で顧客単位の残高を時系列表示する。</p>
 <hr />
 <h4 id="pdfgenerationservicepdf生成サービス">PdfGenerationService（PDF生成サービス）</h4>
 <p><strong>責務</strong>: 各帳票のPDF生成と保存</p>
@@ -3229,23 +3145,20 @@ paidAmount &gt;= totalAmount                 → PAID（入金済み）
     participant SVC as PaymentService
     participant DB as Prisma/SQLite
 
-    Owner-&gt;&gt;ListUI: 入金管理画面を開く
-    ListUI-&gt;&gt;API: GET /api/payments（ISSUED/PARTIAL_PAID一覧）
-    API--&gt;&gt;ListUI: 発行済み請求書一覧
+    Owner-&gt;&gt;ListUI: 入金管理画面を開く（日付範囲指定）
+    ListUI-&gt;&gt;DB: 顧客ごとの発行済み Invoice 合計・入金合計を集計
+    DB--&gt;&gt;ListUI: 顧客別残高サマリー
     Owner-&gt;&gt;ListUI: [入金] ボタンをクリック（対象顧客行）
     ListUI-&gt;&gt;LedgerUI: /payments/customers/[customerId] へ遷移
 
     LedgerUI-&gt;&gt;API: GET /api/payments/customers/[customerId]/ledger
-    API--&gt;&gt;LedgerUI: 前月繰越・売上・入金・差引残高
+    API--&gt;&gt;LedgerUI: 前期繰越・売上・入金・差引残高
 
     Owner-&gt;&gt;LedgerUI: 入金額・入金日・入金方法を入力
     Owner-&gt;&gt;LedgerUI: [登録] クリック
     LedgerUI-&gt;&gt;API: POST /api/payments { customerId, amount, paidAt }
     API-&gt;&gt;SVC: registerPayment(customerId, amount, paidAt)
-    SVC-&gt;&gt;DB: Payment を保存（$transaction）
-    SVC-&gt;&gt;SVC: allocateFifo(): 未払い Invoice を issueDate ASC で取得
-    SVC-&gt;&gt;DB: InvoicePayment レコードを作成（充当分ごと）
-    SVC-&gt;&gt;DB: Invoice.paidAmount を更新・status を再計算
+    SVC-&gt;&gt;DB: Payment を保存（顧客単位・FIFO なし）
     DB--&gt;&gt;SVC: 更新済みデータ
     SVC--&gt;&gt;API: payment + allocations
     API--&gt;&gt;LedgerUI: 200 OK
@@ -3322,12 +3235,12 @@ paidAmount &gt;= totalAmount                 → PAID（入金済み）
 <tr>
 <td>入金管理</td>
 <td><code>/payments</code></td>
-<td>発行済み請求書一覧（ISSUED/PARTIAL_PAID）・[入金]ボタン</td>
+<td>顧客別売掛金サマリー（発行日・入金日の期間・前期残高・期間発行額・期間入金額・残高・締め日）・[入金]ボタン</td>
 </tr>
 <tr>
 <td>売掛金元帳</td>
 <td><code>/payments/customers/[customerId]</code></td>
-<td>顧客の売掛金元帳（前月繰越・売上・入金・差引残高）・入金登録フォーム</td>
+<td>顧客の売掛金元帳（日付範囲指定・前期繰越・売上・入金・差引残高）・入金登録フォーム</td>
 </tr>
 <tr>
 <td>ユーザー管理</td>
@@ -3480,39 +3393,48 @@ paidAmount &gt;= totalAmount                 → PAID（入金済み）
 <li>[請求] → <code>/invoices/new?customerId=xxx</code> へ遷移</li>
 </ul>
 <h3 id="入金管理画面レイアウトpayments">入金管理画面レイアウト（<code>/payments</code>）</h3>
-<div class="highlight"><pre><span></span><code>┌─────────────────┬──────────┬────────────────┬──────────┬────────┬─────────┬────────┐
-│ 請求書番号       │ 顧客     │ 請求期間        │ 請求金額  │ 入金済 │ 残高    │        │
-├─────────────────┼──────────┼────────────────┼──────────┼────────┼─────────┼────────┤
-│ INV-202606-0001 │ (株)XYZ  │ 06/01〜06/30   │ ¥84,000  │    ¥0  │ ¥84,000 │ [入金] │
-│ INV-202605-0002 │ (株)PQR  │ 05/01〜05/31   │ ¥140,000 │    ¥0  │¥140,000 │ [入金] │
-└─────────────────┴──────────┴────────────────┴──────────┴────────┴─────────┴────────┘
+<div class="highlight"><pre><span></span><code>← [2026-06-01] 〜 [2026-06-30] →   [残高あり ▼]
+
+発行日・入金日の期間：← [2026-06-01] 〜 [2026-06-30] →   [残高あり ▼]
+
+┌──────────┬────────┬──────────┬────────────┬────────────┬──────────┬──────────┬────────┐
+│ 顧客名   │ 締め日 │ 前期残高  │ 期間発行額  │ 期間入金額  │ 残高     │ ステータス│        │
+├──────────┼────────┼──────────┼────────────┼────────────┼──────────┼──────────┼────────┤
+│ (株)XYZ  │月末締め│   ¥0     │   ¥84,000  │      ¥0    │ ¥84,000  │ 未入金   │ [入金] │
+│ (株)PQR  │15日締め│¥50,000   │  ¥140,000  │  ¥190,000  │    ¥0    │ 入金済み │ [詳細] │
+└──────────┴────────┴──────────┴──────────┴──────────┴──────────┴──────────┴────────┘
 </code></pre></div>
 <ul>
-<li>ISSUED / PARTIAL_PAID の請求書のみ表示</li>
-<li>[入金] → <code>/payments/customers/[customerId]</code> へ遷移</li>
+<li>顧客単位のサマリー表示（請求書単位ではない）</li>
+<li><strong>発行日・入金日の期間</strong> で絞り込み。<code>←</code> / <code>→</code> で1ヶ月シフト、直接入力も可能</li>
+<li><strong>前期残高</strong>: 期間開始前の累計残高（= Σ Invoice.totalAmount − Σ Payment.amount）</li>
+<li><strong>期間発行額</strong>: 選択期間内に発行した Invoice の合計（Invoice.issueDate が期間内）</li>
+<li><strong>期間入金額</strong>: 選択期間内に受けた Payment の合計（Payment.paidAt が期間内）</li>
+<li><strong>残高</strong>: 前期残高 + 期間発行額 − 期間入金額</li>
+<li><strong>ステータス</strong>: 全期間の累計残高で判断（未入金 / 一部入金 / 入金済み）</li>
+<li>残高 &gt; 0 の顧客に [入金]、残高 = 0 の顧客に [詳細]</li>
+<li>[入金] / [詳細] → <code>/payments/customers/[customerId]?from=...&amp;to=...</code> へ遷移</li>
 </ul>
 <h3 id="売掛金元帳入金処理画面レイアウトpaymentscustomerscustomerid">売掛金元帳・入金処理画面レイアウト（<code>/payments/customers/[customerId]</code>）</h3>
-<div class="highlight"><pre><span></span><code>(株)XYZ  売掛金元帳
-┌────────────┬────────────────────┬──────────┬──────────┬──────────┐
-│ 日付       │ 摘要               │ 売上     │ 入金     │ 差引残高 │
-├────────────┼────────────────────┼──────────┼──────────┼──────────┤
-│            │ 前月繰越           │          │          │ ¥105,000 │
-│ 06/03      │ A商品 × 20        │ ¥20,000  │          │ ¥125,000 │
-│ 06/03      │ B商品 × 10        │ ¥15,000  │          │ ¥140,000 │
-│ 06/15      │ C商品 × 10        │ ¥40,000  │          │ ¥180,000 │
-│ 06/05      │ 入金               │          │ ¥105,000 │  ¥75,000 │
-│ 06/24      │ A商品 × 9         │  ¥9,000  │          │  ¥84,000 │
-├────────────┼────────────────────┼──────────┼──────────┼──────────┤
-│            │ 次月繰越           │          │          │  ¥84,000 │
-└────────────┴────────────────────┴──────────┴──────────┴──────────┘
+<div class="highlight"><pre><span></span><code>(株)XYZ  売掛金元帳         ← [2026-06-01] 〜 [2026-06-30] →
+┌────────────┬──────────────────────────┬──────────┬──────────┬──────────┐
+│ 日付       │ 摘要                      │ 売上     │ 入金     │ 差引残高 │
+├────────────┼──────────────────────────┼──────────┼──────────┼──────────┤
+│            │ 前期繰越                  │          │          │ ¥105,000 │
+│ 06/03      │ INV-202606-0001（5/7〜6/6）│ ¥84,000  │          │ ¥189,000 │
+│ 06/05      │ 入金                      │          │ ¥105,000 │  ¥84,000 │
+├────────────┼──────────────────────────┼──────────┼──────────┼──────────┤
+│            │ 期末残高                  │          │          │  ¥84,000 │
+└────────────┴──────────────────────────┴──────────┴──────────┴──────────┘
 
 入金登録:  日付 [____]  金額 [________]  入金方法 [現金▼]  備考 [________]  [登録]
 </code></pre></div>
 <ul>
-<li>売上行 = 当月の OrderItem（日付・商品名・数量）</li>
-<li>入金行 = 当月の Payment（入金日・金額）、[削除] ボタン付き</li>
-<li>差引残高 = 前月繰越 + 売上累計 − 入金累計（行ごとに計算）</li>
-<li>前月繰越 = 前月末時点の未払い Invoice 残高の合計</li>
+<li>売上行 = 期間内に発行された Invoice（発行日・請求書番号・対象期間）</li>
+<li>入金行 = 期間内の Payment（入金日・金額）、[削除] ボタン付き</li>
+<li>差引残高 = 前期繰越 + 売上累計 − 入金累計</li>
+<li>前期繰越 = 範囲開始前の <code>Σ Invoice.totalAmount − Σ Payment.amount</code></li>
+<li>日付範囲は <code>←</code> / <code>→</code> で変更可能（入金管理画面の選択範囲を引き継ぐ）</li>
 </ul>
 <h3 id="カラーコーディング">カラーコーディング</h3>
 <table>
@@ -3527,17 +3449,12 @@ paidAmount &gt;= totalAmount                 → PAID（入金済み）
 <tr>
 <td>入金済み</td>
 <td>緑 (green-600)</td>
-<td>請求書ステータスバッジ</td>
-</tr>
-<tr>
-<td>一部入金</td>
-<td>黄 (yellow-500)</td>
-<td>請求書ステータスバッジ</td>
+<td>入金管理ステータスバッジ・残高</td>
 </tr>
 <tr>
 <td>未払い</td>
 <td>赤 (red-500)</td>
-<td>請求書ステータスバッジ</td>
+<td>入金管理残高</td>
 </tr>
 <tr>
 <td>顧客別単価適用中</td>

@@ -857,6 +857,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="ブランチ戦略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#会話ベースclaude-code-との対話で実装する場合" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会話ベース（Claude Code との対話で実装する場合）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ヘッドレス自動実行run-issueps1--run-promptps1-による場合" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ヘッドレス自動実行（run-issue.ps1 / run-prompt.ps1 による場合）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -1620,6 +1648,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="ブランチ戦略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#会話ベースclaude-code-との対話で実装する場合" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        会話ベース（Claude Code との対話で実装する場合）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ヘッドレス自動実行run-issueps1--run-promptps1-による場合" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ヘッドレス自動実行（run-issue.ps1 / run-prompt.ps1 による場合）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -2020,7 +2076,7 @@ npx<span class="w"> </span>prisma<span class="w"> </span>generate<span class="w"
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="c1">// ✅ ユニオン型はtype aliasで定義</span>
 <span class="kr">type</span><span class="w"> </span><span class="nx">TaxType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;EXCLUSIVE&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;INCLUSIVE&#39;</span><span class="p">;</span>
-<span class="kr">type</span><span class="w"> </span><span class="nx">InvoiceStatus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;DRAFT&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;ISSUED&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;PARTIAL_PAID&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;PAID&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;CANCELLED&#39;</span><span class="p">;</span>
+<span class="kr">type</span><span class="w"> </span><span class="nx">InvoiceStatus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;DRAFT&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;ISSUED&#39;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s1">&#39;CANCELLED&#39;</span><span class="p">;</span>
 
 <span class="c1">// ✅ オブジェクト型はinterfaceで定義（拡張性のため）</span>
 <span class="kd">interface</span><span class="w"> </span><span class="nx">CreateOrderRequest</span><span class="w"> </span><span class="p">{</span>
@@ -2352,14 +2408,30 @@ POST /api/invoices/[id]/issue    # 請求書発行（将来用）
 <hr />
 <h2 id="git-運用ルール">Git 運用ルール</h2>
 <h3 id="ブランチ戦略">ブランチ戦略</h3>
+<p>ブランチ名は<strong>作成経路</strong>によって使い分ける。</p>
+<h4 id="会話ベースclaude-code-との対話で実装する場合">会話ベース（Claude Code との対話で実装する場合）</h4>
+<p>Conventional Commits の type に揃えた短いプレフィックスを使う。</p>
 <div class="highlight"><pre><span></span><code>main
-  └─ feature/[機能名]    # 新機能
+  └─ feat/[機能名]       # 新機能
   └─ fix/[修正内容]      # バグ修正
-  └─ refactor/[対象]     # リファクタリング
+  └─ refactor/[対象]     # リファクタリング・設計変更
+  └─ chore/[対象]        # ツール・設定・スクリプト変更
   └─ docs/[対象]         # ドキュメント更新
 </code></pre></div>
+<p>例：<code>feat/unified-invoice-list</code>、<code>refactor/simplify-payment</code></p>
+<h4 id="ヘッドレス自動実行run-issueps1--run-promptps1-による場合">ヘッドレス自動実行（<code>run-issue.ps1</code> / <code>run-prompt.ps1</code> による場合）</h4>
+<p>Claude が自律実行したブランチであることを示す <code>claude/</code> プレフィックスを使う。</p>
+<div class="highlight"><pre><span></span><code>main
+  └─ claude/issue-N-YYYYMMDD      # run-issue.ps1（GitHub Issue 起点）
+  └─ claude/YYYYMMDD-[概要]       # run-prompt.ps1（プロンプト直接実行）
+</code></pre></div>
+<p>例：<code>claude/issue-47-20260603</code>、<code>claude/20260603-simplify-payment</code></p>
+<blockquote>
+<p><code>claude/</code> プレフィックスは「Claude が自動で作成・コミットしたブランチ」の目印。
+レビュー時に人間が変更内容を意識的に確認するためのシグナルとして機能する。</p>
+</blockquote>
 <p><strong>このプロジェクトは単独開発を想定しているため <code>develop</code> ブランチは使用しない。</strong>
-feature ブランチから直接 <code>main</code> にマージする。</p>
+各ブランチから直接 <code>main</code> にマージする。</p>
 <h3 id="コミットメッセージ規約">コミットメッセージ規約</h3>
 <p><strong>Conventional Commits 形式</strong>:</p>
 <div class="highlight"><pre><span></span><code>&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;

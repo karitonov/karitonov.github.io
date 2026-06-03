@@ -614,17 +614,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#invoicepayment入金配分" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        InvoicePayment（入金配分）
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#deliverynote納品書" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -791,10 +780,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#payment-と-invoice-の関係fifo配分" class="md-nav__link">
+  <a href="#payment-と-invoice-の関係" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Payment と Invoice の関係（FIFO配分）
+        Payment と Invoice の関係
       
     </span>
   </a>
@@ -1148,17 +1137,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#invoicepayment入金配分" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        InvoicePayment（入金配分）
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#deliverynote納品書" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1325,10 +1303,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#payment-と-invoice-の関係fifo配分" class="md-nav__link">
+  <a href="#payment-と-invoice-の関係" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Payment と Invoice の関係（FIFO配分）
+        Payment と Invoice の関係
       
     </span>
   </a>
@@ -1442,7 +1420,6 @@
         Int    subtotal
         Int    taxAmount
         Int    totalAmount
-        Int    paidAmount
         String status
         String notes
         String qualifiedInvoiceNumber
@@ -1471,14 +1448,6 @@
         DateTime paidAt
         String paymentMethod
         String notes
-        DateTime createdAt
-    }
-
-    InvoicePayment {
-        String id PK
-        String paymentId  FK
-        String invoiceId  FK
-        Int    allocatedAmount
         DateTime createdAt
     }
 
@@ -1521,7 +1490,7 @@
     Customer    ||--o{ Order                 : &quot;発注する&quot;
     Customer    ||--o{ CustomerProductPrice  : &quot;個別単価を持つ&quot;
     Customer    ||--o{ Invoice               : &quot;請求される&quot;
-    Customer    ||--o{ Payment               : &quot;入金する&quot;
+    Customer    ||--o{ Payment               : &quot;入金を受ける&quot;
     Product     ||--o{ OrderItem             : &quot;注文明細に含まれる&quot;
     Product     ||--o{ CustomerProductPrice  : &quot;個別単価を持つ&quot;
     Order       ||--o{ OrderItem             : &quot;明細を含む&quot;
@@ -1530,8 +1499,6 @@
     Order       }o--o| Invoice               : &quot;請求書にまとめられる&quot;
     OrderItem   ||--o{ InvoiceItem           : &quot;請求明細になる&quot;
     Invoice     ||--o{ InvoiceItem           : &quot;明細を含む&quot;
-    Invoice     ||--o{ InvoicePayment        : &quot;配分を受ける&quot;
-    Payment     ||--o{ InvoicePayment        : &quot;請求書へ配分する&quot;
 </code></pre></div>
 <hr />
 <h2 id="テーブル定義">テーブル定義</h2>
@@ -2038,16 +2005,10 @@
 <td>税込合計</td>
 </tr>
 <tr>
-<td>paidAmount</td>
-<td>Int</td>
-<td>DEFAULT 0</td>
-<td>入金済み金額</td>
-</tr>
-<tr>
 <td>status</td>
 <td>String</td>
 <td>NOT NULL, INDEX</td>
-<td><code>DRAFT</code> | <code>ISSUED</code> | <code>PARTIAL_PAID</code> | <code>PAID</code> | <code>CANCELLED</code></td>
+<td><code>DRAFT</code> | <code>ISSUED</code> | <code>CANCELLED</code></td>
 </tr>
 <tr>
 <td>notes</td>
@@ -2159,7 +2120,7 @@
 </table>
 <hr />
 <h3 id="payment入金">Payment（入金）</h3>
-<p>顧客単位の入金ヘッダー。1回の入金操作につき1レコード。具体的な請求書への充当は <code>InvoicePayment</code> で管理する。</p>
+<p>顧客単位の入金記録。1回の入金操作につき1レコード。特定の Invoice への紐づけは行わず、顧客全体の残高管理で使用する。</p>
 <table>
 <thead>
 <tr>
@@ -2186,7 +2147,7 @@
 <td>amount</td>
 <td>Int</td>
 <td>NOT NULL</td>
-<td>入金総額（円）</td>
+<td>入金額（円）</td>
 </tr>
 <tr>
 <td>paidAt</td>
@@ -2214,52 +2175,6 @@
 </tr>
 </tbody>
 </table>
-<hr />
-<h3 id="invoicepayment入金配分">InvoicePayment（入金配分）</h3>
-<p>1回の入金（Payment）を複数の請求書（Invoice）へ FIFO で配分した記録。入金削除時の巻き戻しに使用する。</p>
-<table>
-<thead>
-<tr>
-<th>カラム</th>
-<th>型</th>
-<th>制約</th>
-<th>説明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>id</td>
-<td>String</td>
-<td>PK, UUID</td>
-<td>主キー</td>
-</tr>
-<tr>
-<td>paymentId</td>
-<td>String</td>
-<td>FK → Payment.id, INDEX</td>
-<td>入金</td>
-</tr>
-<tr>
-<td>invoiceId</td>
-<td>String</td>
-<td>FK → Invoice.id, INDEX</td>
-<td>充当先請求書</td>
-</tr>
-<tr>
-<td>allocatedAmount</td>
-<td>Int</td>
-<td>NOT NULL</td>
-<td>この入金からこの請求書に充当した金額（円）</td>
-</tr>
-<tr>
-<td>createdAt</td>
-<td>DateTime</td>
-<td>DEFAULT now()</td>
-<td>作成日時</td>
-</tr>
-</tbody>
-</table>
-<p><strong>インデックス</strong>: <code>paymentId</code>, <code>invoiceId</code></p>
 <hr />
 <h3 id="deliverynote納品書">DeliveryNote（納品書）</h3>
 <p>注文1件に対して1枚発行される納品書。帳票番号と発行日を管理する。</p>
@@ -2475,6 +2390,7 @@
 </tbody>
 </table>
 <h3 id="invoicestatus請求書ステータス">Invoice.status（請求書ステータス）</h3>
+<p>入金状態は Invoice 個別に追跡しない。残高管理は顧客単位（売掛金元帳）で行う。</p>
 <table>
 <thead>
 <tr>
@@ -2492,17 +2408,7 @@
 <tr>
 <td><code>ISSUED</code></td>
 <td>発行済み</td>
-<td><code>PARTIAL_PAID</code>, <code>PAID</code>, <code>CANCELLED</code></td>
-</tr>
-<tr>
-<td><code>PARTIAL_PAID</code></td>
-<td>一部入金</td>
-<td><code>PAID</code>, <code>CANCELLED</code></td>
-</tr>
-<tr>
-<td><code>PAID</code></td>
-<td>入金済み</td>
-<td>（終端）</td>
+<td><code>CANCELLED</code></td>
 </tr>
 <tr>
 <td><code>CANCELLED</code></td>
@@ -2569,14 +2475,12 @@
 <li>請求書キャンセル時は <code>Order.invoiceId</code> を <code>null</code> に戻す（未請求状態に復帰）</li>
 <li>1つの請求書には複数の注文が紐づく（<code>Invoice ||--o{ Order</code>）</li>
 </ul>
-<h3 id="payment-と-invoice-の関係fifo配分">Payment と Invoice の関係（FIFO配分）</h3>
+<h3 id="payment-と-invoice-の関係">Payment と Invoice の関係</h3>
 <ul>
-<li><code>Payment</code> は顧客単位（<code>customerId</code>）で記録する。特定の請求書には直接紐づかない</li>
-<li>入金登録時に <code>PaymentService.allocateFifo()</code> が自動実行され、未払い Invoice を <code>issueDate ASC</code> の順に充当する</li>
-<li>配分結果は <code>InvoicePayment</code> テーブルに記録される（1入金が複数請求書に分かれる場合は複数行）</li>
-<li><code>Invoice.paidAmount</code> は配分後に更新され、<code>status</code> は <code>paidAmount</code> と <code>totalAmount</code> の比較で自動計算される</li>
-<li>入金削除時は <code>InvoicePayment</code> を参照して <code>Invoice.paidAmount</code> を逆算で巻き戻す</li>
-<li><code>CANCELLED</code> 状態の Invoice は FIFO 配分の対象外</li>
+<li><code>Payment</code> は顧客単位（<code>customerId</code>）で記録する。特定の Invoice への紐づけは行わない</li>
+<li>顧客の未回収残高 = <code>Σ Invoice.totalAmount (status = ISSUED)</code> − <code>Σ Payment.amount</code></li>
+<li>Invoice の <code>status</code> は <code>ISSUED</code> / <code>CANCELLED</code> のみ。入金によって自動更新されない</li>
+<li>入金状況は売掛金元帳（<code>/payments/customers/[customerId]</code>）で時系列表示する</li>
 </ul>
 
 
