@@ -2,6 +2,14 @@ site_name: ポートフォリオ
 nav:
   - Home: index.md
   - About: about.md
+  - 販売管理システム (BentoSales):
+    - プロダクト要求定義書: ManagementSystem/product-requirements.md
+    - 機能設計書: ManagementSystem/functional-design.md
+    - アーキテクチャ設計書: ManagementSystem/architecture.md
+    - DB設計書: ManagementSystem/database.md
+    - リポジトリ構成定義書: ManagementSystem/repository-structure.md
+    - 開発ガイドライン: ManagementSystem/development-guidelines.md
+    - 用語集: ManagementSystem/glossary.md
   - その他の使い方:
     - Extra1: extras/extra1.md
 theme:
@@ -33,6 +41,10 @@ extra_javascript:
   - js/mathjax.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 markdown_extensions:
+  - toc:
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - pymdownx.arithmatex:
       generic: true
   - admonition
