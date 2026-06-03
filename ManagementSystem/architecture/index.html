@@ -1,0 +1,2407 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../functional-design/">
+      
+      
+        <link rel="next" href="../database/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>アーキテクチャ設計書 - ポートフォリオ</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#技術仕様書-architecture-design-document" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ポートフォリオ" class="md-header__button md-logo" aria-label="ポートフォリオ" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ポートフォリオ
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              アーキテクチャ設計書
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ポートフォリオ" class="md-nav__button md-logo" aria-label="ポートフォリオ" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ポートフォリオ
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    販売管理システム (BentoSales)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    販売管理システム (BentoSales)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../product-requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    プロダクト要求定義書
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../functional-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    機能設計書
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    アーキテクチャ設計書
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    アーキテクチャ設計書
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#テクノロジースタック" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        テクノロジースタック
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="テクノロジースタック">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#言語ランタイム" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        言語・ランタイム
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#フレームワークライブラリ本番依存" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        フレームワーク・ライブラリ（本番依存）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#開発ツール" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        開発ツール
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#アーキテクチャパターン" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        アーキテクチャパターン
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="アーキテクチャパターン">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#レイヤードアーキテクチャnextjs-app-router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        レイヤードアーキテクチャ（Next.js App Router）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#依存関係のルール" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        依存関係のルール
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-components-と-client-components-の使い分け" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server Components と Client Components の使い分け
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ディレクトリ構造" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ディレクトリ構造
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#データ永続化戦略" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        データ永続化戦略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="データ永続化戦略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ストレージ方式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ストレージ方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#systemsettings-の管理方針" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SystemSettings の管理方針
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequencenumber-の採番競合対策" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SequenceNumber の採番競合対策
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prismaシングルトンパターン" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prismaシングルトンパターン
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#バックアップ戦略" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        バックアップ戦略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#パフォーマンス要件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        パフォーマンス要件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="パフォーマンス要件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#レスポンスタイム目標" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        レスポンスタイム目標
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sqliteインデックス設計" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQLiteインデックス設計
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#リソース使用量" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        リソース使用量
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#セキュリティアーキテクチャ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        セキュリティアーキテクチャ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="セキュリティアーキテクチャ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#認証アクセス制御" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        認証・アクセス制御
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#入力検証zod-スキーマ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        入力検証（Zod スキーマ）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sqlインジェクション対策" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQLインジェクション対策
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xss対策" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XSS対策
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#機密情報管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        機密情報管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#スケーラビリティ設計" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        スケーラビリティ設計
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="スケーラビリティ設計">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#データ増加への対応" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        データ増加への対応
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#機能拡張性" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        機能拡張性
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#テスト戦略" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        テスト戦略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="テスト戦略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ユニットテストvitest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ユニットテスト（Vitest）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#統合テストvitest--prisma-テスト用db" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        統合テスト（Vitest + Prisma テスト用DB）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e2eテストplaywright" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E2Eテスト（Playwright）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#技術的制約" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技術的制約
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="技術的制約">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#環境要件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        環境要件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#運用環境の前提" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        運用環境の前提
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#パフォーマンス制約" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        パフォーマンス制約
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#依存関係管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        依存関係管理
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DB設計書
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repository-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    リポジトリ構成定義書
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development-guidelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    開発ガイドライン
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    用語集
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    その他の使い方
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    その他の使い方
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/extra1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extra1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#テクノロジースタック" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        テクノロジースタック
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="テクノロジースタック">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#言語ランタイム" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        言語・ランタイム
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#フレームワークライブラリ本番依存" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        フレームワーク・ライブラリ（本番依存）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#開発ツール" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        開発ツール
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#アーキテクチャパターン" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        アーキテクチャパターン
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="アーキテクチャパターン">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#レイヤードアーキテクチャnextjs-app-router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        レイヤードアーキテクチャ（Next.js App Router）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#依存関係のルール" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        依存関係のルール
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server-components-と-client-components-の使い分け" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Server Components と Client Components の使い分け
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ディレクトリ構造" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ディレクトリ構造
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#データ永続化戦略" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        データ永続化戦略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="データ永続化戦略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ストレージ方式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ストレージ方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#systemsettings-の管理方針" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SystemSettings の管理方針
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sequencenumber-の採番競合対策" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SequenceNumber の採番競合対策
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prismaシングルトンパターン" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prismaシングルトンパターン
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#バックアップ戦略" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        バックアップ戦略
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#パフォーマンス要件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        パフォーマンス要件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="パフォーマンス要件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#レスポンスタイム目標" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        レスポンスタイム目標
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sqliteインデックス設計" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQLiteインデックス設計
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#リソース使用量" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        リソース使用量
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#セキュリティアーキテクチャ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        セキュリティアーキテクチャ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="セキュリティアーキテクチャ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#認証アクセス制御" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        認証・アクセス制御
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#入力検証zod-スキーマ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        入力検証（Zod スキーマ）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sqlインジェクション対策" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQLインジェクション対策
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xss対策" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XSS対策
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#機密情報管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        機密情報管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#スケーラビリティ設計" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        スケーラビリティ設計
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="スケーラビリティ設計">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#データ増加への対応" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        データ増加への対応
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#機能拡張性" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        機能拡張性
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#テスト戦略" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        テスト戦略
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="テスト戦略">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ユニットテストvitest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ユニットテスト（Vitest）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#統合テストvitest--prisma-テスト用db" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        統合テスト（Vitest + Prisma テスト用DB）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e2eテストplaywright" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E2Eテスト（Playwright）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#技術的制約" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技術的制約
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="技術的制約">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#環境要件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        環境要件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#運用環境の前提" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        運用環境の前提
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#パフォーマンス制約" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        パフォーマンス制約
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#依存関係管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        依存関係管理
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="技術仕様書-architecture-design-document">技術仕様書 (Architecture Design Document)</h1>
+<h2 id="テクノロジースタック">テクノロジースタック</h2>
+<h3 id="言語ランタイム">言語・ランタイム</h3>
+<table>
+<thead>
+<tr>
+<th>技術</th>
+<th>バージョン</th>
+<th>選定理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Node.js</td>
+<td>v24.11.0</td>
+<td>LTS版。2026年以降も長期サポート保証。非同期I/Oに優れ、Next.jsのサーバーサイド処理・PDF生成に適する</td>
+</tr>
+<tr>
+<td>TypeScript</td>
+<td>5.x</td>
+<td>静的型付けにより、金額計算・税計算など数値が複雑なビジネスロジックの誤りをコンパイル時に検出できる。IDEの補完によりスタッフがPRを書く際の生産性も向上</td>
+</tr>
+<tr>
+<td>npm</td>
+<td>11.x</td>
+<td>Node.js v24.11.0 に同梱。package-lock.json による依存関係の厳密な固定管理が可能</td>
+</tr>
+</tbody>
+</table>
+<h3 id="フレームワークライブラリ本番依存">フレームワーク・ライブラリ（本番依存）</h3>
+<table>
+<thead>
+<tr>
+<th>技術</th>
+<th>バージョン</th>
+<th>用途</th>
+<th>選定理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Next.js</td>
+<td>15.x</td>
+<td>フルスタックフレームワーク</td>
+<td>App Router によりページ・API Routes・Server Components を単一プロジェクトに統合。デプロイを単一プロセスに集約できるため単店舗向け運用に最適</td>
+</tr>
+<tr>
+<td>React</td>
+<td>19.x</td>
+<td>UIライブラリ</td>
+<td>Next.js と統合。Server Components によるサーバーサイドレンダリングで初期表示を高速化</td>
+</tr>
+<tr>
+<td>Tailwind CSS</td>
+<td>3.x</td>
+<td>CSSフレームワーク</td>
+<td>ユーティリティファーストで高速にUIを構築。カスタムCSSを最小化しメンテナンス性を向上</td>
+</tr>
+<tr>
+<td>shadcn/ui</td>
+<td>latest</td>
+<td>UIコンポーネント</td>
+<td>アクセシブルで高品質なコンポーネント群をコードベースに取り込むスタイル。Tailwind との統合が容易</td>
+</tr>
+<tr>
+<td>TanStack Table</td>
+<td>8.x</td>
+<td>データグリッド</td>
+<td>注文一覧のインライン編集・ソート・フィルタ対応。ヘッドレスなので Tailwind でスタイル自由度が高い</td>
+</tr>
+<tr>
+<td>Prisma</td>
+<td>5.x</td>
+<td>ORM</td>
+<td>型安全なDB操作とマイグレーション管理。Prisma Client から TypeScript 型を自動生成するため、データモデル変更時の型不整合を防止</td>
+</tr>
+<tr>
+<td>@prisma/client</td>
+<td>5.x</td>
+<td>Prismaクライアント</td>
+<td>Prisma スキーマから自動生成。SQLite との接続管理</td>
+</tr>
+<tr>
+<td>@react-pdf/renderer</td>
+<td>3.x</td>
+<td>PDF生成</td>
+<td>React コンポーネントで帳票レイアウトを宣言的に定義できる。HTML→PDF変換と異なり Headless Chrome 不要</td>
+</tr>
+<tr>
+<td>Zod</td>
+<td>3.x</td>
+<td>バリデーション</td>
+<td>APIリクエストとフォームの両方を同一スキーマで検証。Next.js API Routes の入力検証に使用</td>
+</tr>
+<tr>
+<td>Zustand</td>
+<td>4.x</td>
+<td>状態管理</td>
+<td>選択日付・注文リストなどのグローバル状態を軽量に管理。Redux より設定が少なくシンプル</td>
+</tr>
+<tr>
+<td>date-fns</td>
+<td>3.x</td>
+<td>日付処理</td>
+<td>締め日計算・請求対象期間算出などの日付操作に使用。Tree-shaking 対応で軽量</td>
+</tr>
+<tr>
+<td>Auth.js</td>
+<td>5.x (beta)</td>
+<td>認証</td>
+<td>Next.js 15 App Router に対応した最新版。CredentialsProvider によるユーザー名/パスワード認証を使用。セッションに role（STAFF/OWNER）を含めてロール制御を実現</td>
+</tr>
+</tbody>
+</table>
+<h3 id="開発ツール">開発ツール</h3>
+<table>
+<thead>
+<tr>
+<th>技術</th>
+<th>バージョン</th>
+<th>用途</th>
+<th>選定理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ESLint</td>
+<td>9.x</td>
+<td>静的解析</td>
+<td>Next.js 標準設定を使用。TypeScript ルールを追加して型不整合を早期検出</td>
+</tr>
+<tr>
+<td>Prettier</td>
+<td>3.x</td>
+<td>コードフォーマット</td>
+<td>チーム内のコードスタイルを統一。ESLint と統合</td>
+</tr>
+<tr>
+<td>Vitest</td>
+<td>2.x</td>
+<td>ユニットテスト</td>
+<td>Next.js 環境で動作。Jest 互換 API で移行コストが低い。ビジネスロジック（価格計算・税計算）のテストに使用</td>
+</tr>
+<tr>
+<td>Playwright</td>
+<td>1.x</td>
+<td>E2Eテスト</td>
+<td>ブラウザ操作の自動化。電話注文フロー・PDF出力フローのE2Eテストに使用</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="アーキテクチャパターン">アーキテクチャパターン</h2>
+<h3 id="レイヤードアーキテクチャnextjs-app-router">レイヤードアーキテクチャ（Next.js App Router）</h3>
+<div class="highlight"><pre><span></span><code>┌────────────────────────────────────────────────────────┐
+│   プレゼンテーション層（React Components）               │
+│   app/(pages)/ + components/                          │
+│   - Server Components（一覧表示・初期レンダリング）       │
+│   - Client Components（注文入力・インライン編集）         │
+├────────────────────────────────────────────────────────┤
+│   APIレイヤー（Next.js API Routes）                     │
+│   app/api/                                             │
+│   - リクエストバリデーション（Zod）                      │
+│   - サービス呼び出し                                    │
+│   - HTTPレスポンス整形                                  │
+├────────────────────────────────────────────────────────┤
+│   サービスレイヤー（ビジネスロジック）                    │
+│   lib/services/                                        │
+│   - PriceCalculationService                           │
+│   - InvoiceGenerationService                          │
+│   - PaymentService                                    │
+│   - PdfGenerationService                              │
+├────────────────────────────────────────────────────────┤
+│   データレイヤー（Prisma ORM）                           │
+│   lib/db/                                              │
+│   - Prismaクライアントのシングルトン管理                  │
+│   - データアクセスの抽象化                              │
+└────────────────────────────────────────────────────────┘
+          ↓
+┌────────────────────────────────────────────────────────┐
+│   SQLite（prisma/bentosales.db）                       │
+└────────────────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="依存関係のルール">依存関係のルール</h3>
+<div class="highlight"><pre><span></span><code>UI Components → API Routes → Services → Prisma/DB  ✅
+UI Components → Prisma/DB（直接）                   ❌
+Services → UI Components                            ❌
+</code></pre></div>
+<h3 id="server-components-と-client-components-の使い分け">Server Components と Client Components の使い分け</h3>
+<table>
+<thead>
+<tr>
+<th>種別</th>
+<th>用途</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server Components</td>
+<td>注文一覧・顧客一覧・請求書一覧の初期レンダリング</td>
+<td>DBデータを直接取得してHTMLを返すことで初期表示を高速化</td>
+</tr>
+<tr>
+<td>Client Components</td>
+<td>注文入力フォーム・インライン編集グリッド</td>
+<td>ユーザーインタラクション（状態更新・リアルタイム計算）が必要</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ディレクトリ構造">ディレクトリ構造</h2>
+<div class="highlight"><pre><span></span><code>bentosales/
+├── app/                          # Next.js App Router
+│   ├── (order)/                  # 注文メインページ（STAFF・OWNER共通）
+│   │   └── page.tsx
+│   ├── customers/                # 顧客管理（OWNERのみ）
+│   │   ├── page.tsx
+│   │   ├── new/page.tsx
+│   │   └── [id]/page.tsx
+│   ├── products/                 # 商品管理（OWNERのみ）
+│   │   └── page.tsx
+│   ├── invoices/                 # 請求管理（OWNERのみ）
+│   │   ├── page.tsx
+│   │   ├── new/page.tsx
+│   │   └── [id]/page.tsx
+│   ├── settings/                 # システム設定（OWNERのみ）
+│   │   └── page.tsx
+│   ├── users/                    # ユーザー管理（OWNERのみ）
+│   │   └── page.tsx
+│   ├── login/                    # ログイン画面（未認証アクセス可）
+│   │   └── page.tsx
+│   └── api/                      # API Routes
+│       ├── auth/
+│       │   └── [...nextauth]/route.ts  # Auth.js ハンドラ
+│       ├── orders/
+│       │   ├── route.ts                # GET・POST
+│       │   └── [id]/
+│       │       ├── route.ts            # PUT・DELETE
+│       │       ├── previous/route.ts   # GET（前回注文）
+│       │       └── delivery-note-pdf/route.ts  # GET（納品書PDF）
+│       ├── customers/
+│       │   ├── route.ts
+│       │   └── [id]/
+│       │       ├── route.ts
+│       │       └── prices/route.ts
+│       ├── products/
+│       │   ├── route.ts
+│       │   └── [id]/route.ts
+│       ├── invoices/
+│       │   ├── route.ts
+│       │   └── [id]/
+│       │       ├── route.ts
+│       │       ├── cancel/route.ts     # POST（キャンセル）
+│       │       ├── pdf/route.ts        # GET（請求書PDF）
+│       │       └── receipt-pdf/route.ts # GET（領収書PDF）
+│       ├── payments/route.ts
+│       ├── production-summary/
+│       │   ├── route.ts               # GET（JSON集計データ）
+│       │   └── pdf/route.ts           # GET（製造一覧PDF）
+│       ├── settings/route.ts          # GET・PUT（システム設定）
+│       └── users/
+│           ├── route.ts               # GET（一覧）・POST（作成）
+│           ├── [id]/route.ts          # PUT（有効/無効切替）
+│           └── me/password/route.ts   # PUT（パスワード変更）
+├── auth.ts                        # Auth.js 設定
+├── middleware.ts                  # ルート保護・ロールチェック
+├── components/                   # 共通UIコンポーネント
+│   ├── ui/                       # shadcn/ui コンポーネント
+│   ├── order/                    # 注文関連
+│   ├── customer/                 # 顧客関連
+│   ├── invoice/                  # 請求関連
+│   ├── product/                  # 商品関連
+│   ├── user/                     # ユーザー管理関連
+│   └── layout/
+│       ├── app-shell.tsx         # ルートレイアウト（ヘッダー・サイドバー統合）
+│       ├── nav.tsx               # サイドバーナビゲーション
+│       └── user-menu.tsx         # 右上ユーザーメニュー（パスワード変更・ログアウト）
+├── lib/
+│   ├── auth/
+│   │   └── require-role.ts       # ロール制御ユーティリティ
+│   ├── db/
+│   │   └── prisma.ts             # Prismaクライアントのシングルトン
+│   ├── services/
+│   │   ├── price-calculation.ts
+│   │   ├── invoice-generation.ts # cancelInvoice 含む
+│   │   ├── payment.ts
+│   │   └── pdf-generation.ts
+│   └── validations/              # Zodスキーマ
+│       ├── order.ts
+│       ├── customer.ts
+│       ├── product.ts
+│       ├── invoice.ts
+│       ├── payment.ts
+│       ├── settings.ts
+│       └── user.ts               # ユーザー作成・更新・パスワード変更スキーマ
+├── prisma/
+│   ├── schema.prisma             # DBスキーマ定義
+│   ├── seed.ts                   # 開発用初期データ
+│   ├── migrations/               # マイグレーションファイル
+│   └── bentosales.db             # SQLiteデータベースファイル（gitignore）
+├── private/
+│   └── pdfs/                     # 生成PDFの永続保存（認証API経由で配信）
+└── public/                       # 静的ファイル（PDFは置かない）
+</code></pre></div>
+<hr />
+<h2 id="データ永続化戦略">データ永続化戦略</h2>
+<h3 id="ストレージ方式">ストレージ方式</h3>
+<table>
+<thead>
+<tr>
+<th>データ種別</th>
+<th>ストレージ</th>
+<th>フォーマット</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>全業務データ（顧客・商品・注文・請求・ユーザー等）</td>
+<td>ローカル: SQLite（ファイルベース） / Vercel: Turso（libSQL）</td>
+<td>Prisma 管理のRDB</td>
+<td>ローカルは外部DBサーバー不要。Vercel環境では <code>TURSO_DATABASE_URL</code> + <code>TURSO_AUTH_TOKEN</code> を設定してTursoに接続し、インスタンス間でデータを共有</td>
+</tr>
+<tr>
+<td>生成PDF</td>
+<td>ファイルシステム（<code>private/pdfs/</code>）</td>
+<td>PDF</td>
+<td>再発行対応のため永続保存。<strong><code>public/</code> には置かない</strong>（認証なしアクセスを防ぐ）。ファイル名は帳票番号（INV-202605-0001.pdf 等）。API Route 経由で認証済みユーザーのみ取得可能</td>
+</tr>
+<tr>
+<td>セッション</td>
+<td>Auth.js セッション（Cookie + DB）</td>
+<td>JWT / DB Session</td>
+<td>ロール情報を含むセッション。Cookie は HttpOnly・Secure フラグ設定</td>
+</tr>
+</tbody>
+</table>
+<h3 id="systemsettings-の管理方針">SystemSettings の管理方針</h3>
+<p><code>SystemSettings</code> テーブルは常に <code>id = 'default'</code> の1レコードのみ存在するシングルトン。
+アプリ起動時に未存在の場合は <code>prisma/seed.ts</code> で初期レコードを作成する。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// prisma/seed.ts（抜粋）</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">systemSettings</span><span class="p">.</span><span class="nx">upsert</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;default&#39;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">create</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;default&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">storeName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;店舗名を設定してください&#39;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">update</span><span class="o">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>適格請求書発行事業者登録番号（<code>qualifiedInvoiceNumber</code>）は <code>SystemSettings</code> で管理し、
+請求書発行時に <code>Invoice.qualifiedInvoiceNumber</code> へスナップショット保存する。
+これにより登録番号を後から変更しても発行済み請求書の番号は変わらない。</p>
+<h3 id="sequencenumber-の採番競合対策">SequenceNumber の採番競合対策</h3>
+<p>帳票番号採番は複数ユーザーが同時操作しても重複しないよう、
+<strong>必ず Prisma トランザクション内で排他的に実行する</strong>。</p>
+<p>SQLite は <code>BEGIN IMMEDIATE</code> トランザクション（書き込みロック）を使用することで
+同時採番の競合を防止する。Prisma の <code>$transaction</code> はデフォルトで <code>SERIALIZABLE</code> 相当。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 採番の安全な実装例</span>
+<span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">generateDocumentNumber</span><span class="p">(</span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">DocumentType</span><span class="p">,</span><span class="w"> </span><span class="nx">issueDate</span><span class="o">:</span><span class="w"> </span><span class="kt">Date</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nb">Promise</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">yearMonth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">format</span><span class="p">(</span><span class="nx">issueDate</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;yyyyMM&#39;</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nx">$transaction</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">tx</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">tx</span><span class="p">.</span><span class="nx">sequenceNumber</span><span class="p">.</span><span class="nx">upsert</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">type_yearMonth</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="p">,</span><span class="w"> </span><span class="nx">yearMonth</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<span class="w">      </span><span class="nx">create</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="p">,</span><span class="w"> </span><span class="nx">yearMonth</span><span class="p">,</span><span class="w"> </span><span class="nx">lastNumber</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="w"> </span><span class="p">},</span>
+<span class="w">      </span><span class="nx">update</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">lastNumber</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">increment</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">INVOICE</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;INV&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">RECEIPT</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;REC&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">DELIVERY_NOTE</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;DEL&#39;</span><span class="w"> </span><span class="p">}[</span><span class="kr">type</span><span class="p">];</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span><span class="nx">prefix</span><span class="si">}</span><span class="sb">-</span><span class="si">${</span><span class="nx">yearMonth</span><span class="si">}</span><span class="sb">-</span><span class="si">${</span><span class="nb">String</span><span class="p">(</span><span class="nx">seq</span><span class="p">.</span><span class="nx">lastNumber</span><span class="p">).</span><span class="nx">padStart</span><span class="p">(</span><span class="mf">4</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;0&#39;</span><span class="p">)</span><span class="si">}</span><span class="sb">`</span><span class="p">;</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="prismaシングルトンパターン">Prismaシングルトンパターン</h3>
+<p>開発環境での接続数増加を防ぐため、Prismaクライアントをシングルトンで管理する。
+<code>TURSO_DATABASE_URL</code> 環境変数の有無で接続先（Turso or SQLite）を切り替える。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// lib/db/prisma.ts</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">PrismaClient</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@prisma/client&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">PrismaLibSql</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@prisma/adapter-libsql&#39;</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">globalForPrisma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">globalThis</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">unknown</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">prisma</span><span class="o">:</span><span class="w"> </span><span class="kt">PrismaClient</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kc">undefined</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">createPrismaClient</span><span class="p">()</span><span class="o">:</span><span class="w"> </span><span class="nx">PrismaClient</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TURSO_DATABASE_URL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">adapter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">PrismaLibSql</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">url</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.TURSO_DATABASE_URL</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">authToken</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.TURSO_AUTH_TOKEN</span><span class="p">,</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">PrismaClient</span><span class="p">({</span><span class="w"> </span><span class="nx">adapter</span><span class="w"> </span><span class="p">});</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">PrismaClient</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">log</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.NODE_ENV</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;development&#39;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;query&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;error&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;warn&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">],</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">prisma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">globalForPrisma</span><span class="p">.</span><span class="nx">prisma</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="nx">createPrismaClient</span><span class="p">();</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="s1">&#39;production&#39;</span><span class="p">)</span><span class="w"> </span><span class="nx">globalForPrisma</span><span class="p">.</span><span class="nx">prisma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">prisma</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="バックアップ戦略">バックアップ戦略</h3>
+<ul>
+<li><strong>方式</strong>: SQLite DBファイル（<code>prisma/bentosales.db</code>）をファイルコピーでバックアップ</li>
+<li><strong>推奨頻度</strong>: 1日1回（夜間）、OS のスケジューラ（タスクスケジューラ）で自動化</li>
+<li><strong>保存先</strong>: pCloud Sync 等のクラウドストレージと同期されたフォルダへコピー</li>
+<li><strong>世代管理</strong>: <code>bentosales-YYYYMMDD.db</code> 形式で30日分を保持</li>
+<li><strong>復元方法</strong>: バックアップファイルを <code>prisma/bentosales.db</code> に上書きコピーして再起動</li>
+<li><strong>PDFバックアップ</strong>: <code>private/pdfs/</code> ディレクトリも同様に定期バックアップ対象とする</li>
+<li><strong>環境変数のバックアップ</strong>: <code>NEXTAUTH_SECRET</code> 等の <code>.env.local</code> はDBファイルとは別に安全な場所（パスワードマネージャーなど）に保管すること。これがないとセッション復号ができなくなる</li>
+</ul>
+<hr />
+<h2 id="パフォーマンス要件">パフォーマンス要件</h2>
+<h3 id="レスポンスタイム目標">レスポンスタイム目標</h3>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>目標時間</th>
+<th>測定環境</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>注文保存（POST /api/orders）</td>
+<td>500ms以内</td>
+<td>Core i5相当、メモリ8GB、SSD、SQLite</td>
+</tr>
+<tr>
+<td>注文一覧表示（当日100件）</td>
+<td>1秒以内</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>製造一覧リアルタイム更新</td>
+<td>200ms以内</td>
+<td>同上（インメモリ計算）</td>
+</tr>
+<tr>
+<td>PDF生成（請求書・領収書）</td>
+<td>3秒以内</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>顧客一覧表示（200社）</td>
+<td>500ms以内</td>
+<td>同上</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sqliteインデックス設計">SQLiteインデックス設計</h3>
+<p>クエリの頻度が高いカラムにインデックスを設定する:</p>
+<div class="highlight"><pre><span></span><code>// prisma/schema.prisma 内
+model Order {
+  @@index([deliveryDate])       // 日付指定でフィルタ
+  @@index([customerId])         // 顧客別フィルタ
+}
+
+model Invoice {
+  @@index([customerId, status]) // 顧客別未払い一覧
+  @@index([status])             // 状態別フィルタ
+}
+
+model OrderItem {
+  @@index([orderId])            // 注文明細取得
+}
+
+model Order {
+  @@index([invoiceId])          // 請求書ごとの注文取得・キャンセル時の一括更新
+}
+
+model DeliveryNote {
+  @@index([orderId])            // 注文IDによる納品書検索
+}
+</code></pre></div>
+<h3 id="リソース使用量">リソース使用量</h3>
+<table>
+<thead>
+<tr>
+<th>リソース</th>
+<th>上限</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>メモリ（Node.jsプロセス）</td>
+<td>512MB</td>
+<td>単店舗LAN内サーバーの想定スペック</td>
+</tr>
+<tr>
+<td>SQLiteファイルサイズ</td>
+<td>1GB</td>
+<td>5年分のデータで約200MB程度の見積もり。十分に余裕あり</td>
+</tr>
+<tr>
+<td>PDF保存領域</td>
+<td>10GB</td>
+<td>月100枚×5年分でも余裕のある容量</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="セキュリティアーキテクチャ">セキュリティアーキテクチャ</h2>
+<h3 id="認証アクセス制御">認証・アクセス制御</h3>
+<ul>
+<li><strong>方式</strong>: Auth.js v5（CredentialsProvider）によるセッション管理</li>
+<li><strong>ユーザー管理</strong>: STAFF / OWNER の2ロール分離。User エンティティで管理</li>
+<li><strong>ロール権限</strong>:</li>
+<li>STAFF: 注文入力・注文一覧・製造一覧・納品書PDF出力のみ</li>
+<li>OWNER: 全機能（顧客管理・商品管理・請求管理・入金管理・全帳票・設定）</li>
+<li><strong>セッション</strong>: Cookie（HttpOnly, Secure フラグ設定）。セッションに <code>role</code> を含める</li>
+<li><strong>パスワード</strong>: bcrypt でハッシュ化して DB 保存（User テーブル）</li>
+</ul>
+<p><strong>ロール制御の実装方針</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// lib/auth/require-role.ts</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">auth</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@/auth&#39;</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="kr">type</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">UserRole</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@prisma/client&#39;</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">requireRole</span><span class="p">(</span><span class="nx">requiredRole</span><span class="o">:</span><span class="w"> </span><span class="kt">UserRole</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">session</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">auth</span><span class="p">();</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">session</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">Response</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span><span class="w"> </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Unauthorized&#39;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="kt">401</span><span class="w"> </span><span class="p">});</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">requiredRole</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;OWNER&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">session</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">role</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="s1">&#39;OWNER&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">Response</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span><span class="w"> </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Forbidden&#39;</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="kt">403</span><span class="w"> </span><span class="p">});</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w"> </span><span class="c1">// OK</span>
+<span class="p">}</span>
+
+<span class="c1">// 使用例（API Route）</span>
+<span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">POST</span><span class="p">(</span><span class="nx">request</span><span class="o">:</span><span class="w"> </span><span class="kt">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">denied</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">requireRole</span><span class="p">(</span><span class="s1">&#39;OWNER&#39;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">denied</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">denied</span><span class="p">;</span>
+<span class="w">  </span><span class="c1">// ... 以降は OWNER のみ実行</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Next.js Middleware でのルート保護</strong>:
+- <code>/login</code> 以外の全ルートはセッション必須（未認証は <code>/login</code> にリダイレクト）
+- OWNER 専用ページ（<code>/customers</code>, <code>/products</code>, <code>/invoices</code>, <code>/settings</code>, <code>/users</code>）は Middleware で role チェック</p>
+<h3 id="入力検証zod-スキーマ">入力検証（Zod スキーマ）</h3>
+<p>APIリクエストはすべて Zod スキーマで検証する。クライアントサイドとサーバーサイドで同一スキーマを共用する。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// lib/validations/order.ts</span>
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">CreateOrderSchema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">z</span><span class="p">.</span><span class="nx">object</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">customerId</span><span class="o">:</span><span class="w"> </span><span class="kt">z.string</span><span class="p">().</span><span class="nx">uuid</span><span class="p">(),</span>
+<span class="w">  </span><span class="nx">deliveryDate</span><span class="o">:</span><span class="w"> </span><span class="kt">z.string</span><span class="p">().</span><span class="nx">regex</span><span class="p">(</span><span class="sr">/^\d{4}-\d{2}-\d{2}$/</span><span class="p">),</span>
+<span class="w">  </span><span class="nx">items</span><span class="o">:</span><span class="w"> </span><span class="kt">z.array</span><span class="p">(</span><span class="nx">z</span><span class="p">.</span><span class="nx">object</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">productId</span><span class="o">:</span><span class="w"> </span><span class="kt">z.string</span><span class="p">().</span><span class="nx">uuid</span><span class="p">(),</span>
+<span class="w">    </span><span class="nx">unitPrice</span><span class="o">:</span><span class="w"> </span><span class="kt">z.number</span><span class="p">().</span><span class="kr">int</span><span class="p">().</span><span class="nx">min</span><span class="p">(</span><span class="mf">0</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">quantity</span><span class="o">:</span><span class="w"> </span><span class="kt">z.number</span><span class="p">().</span><span class="kr">int</span><span class="p">().</span><span class="nx">min</span><span class="p">(</span><span class="mf">1</span><span class="p">),</span>
+<span class="w">  </span><span class="p">})).</span><span class="nx">min</span><span class="p">(</span><span class="mf">1</span><span class="p">),</span>
+<span class="p">});</span>
+</code></pre></div>
+<h3 id="sqlインジェクション対策">SQLインジェクション対策</h3>
+<p>Prisma ORM が生成するプリペアドステートメントを使用するため、SQL インジェクションのリスクは構造的に排除される。Raw SQL を使用する場合は <code>prisma.$queryRaw</code> + テンプレートリテラルのみ使用する。</p>
+<h3 id="xss対策">XSS対策</h3>
+<ul>
+<li>React の JSX はデフォルトでエスケープ処理を行う</li>
+<li><code>dangerouslySetInnerHTML</code> は使用しない</li>
+<li>PDF生成で表示するユーザー入力テキストは react-pdf 側でレンダリングするため HTML インジェクションリスクなし</li>
+</ul>
+<h3 id="機密情報管理">機密情報管理</h3>
+<div class="highlight"><pre><span></span><code>.env.local（Gitignore対象）
+├── DATABASE_URL=&quot;file:./prisma/bentosales.db&quot;
+├── NEXTAUTH_SECRET=&quot;...&quot;
+└── NEXTAUTH_URL=&quot;http://localhost:3000&quot;
+</code></pre></div>
+<hr />
+<h2 id="スケーラビリティ設計">スケーラビリティ設計</h2>
+<h3 id="データ増加への対応">データ増加への対応</h3>
+<ul>
+<li><strong>想定データ量</strong>: 顧客200社 × 1日100件 × 365日 × 5年 = 約180,000件の注文</li>
+<li><strong>SQLite の上限</strong>: 140TB（理論値）。180,000件は全く問題なし</li>
+<li><strong>パフォーマンス対策</strong>: deliveryDate・customerId・status へのインデックスで主要クエリを最適化</li>
+<li><strong>アーカイブ</strong>: 3年以上前の注文データは別テーブル（<code>OrderArchive</code>）へ移行する機能を将来実装</li>
+</ul>
+<h3 id="機能拡張性">機能拡張性</h3>
+<ul>
+<li><strong>複数店舗対応</strong>: 現在はスコープ外だが、将来的に <code>tenantId</code> カラムを追加するだけで対応可能な設計</li>
+<li><strong>外部連携</strong>: Next.js API Routes を REST API として公開しているため、将来的に会計ソフト連携が可能</li>
+</ul>
+<hr />
+<h2 id="テスト戦略">テスト戦略</h2>
+<h3 id="ユニットテストvitest">ユニットテスト（Vitest）</h3>
+<ul>
+<li><strong>フレームワーク</strong>: Vitest 2.x</li>
+<li><strong>対象</strong>: サービスレイヤーのビジネスロジック</li>
+<li><strong>カバレッジ目標</strong>: サービスレイヤー 90%以上</li>
+<li><strong>重点テスト対象</strong>:</li>
+<li><code>PriceCalculationService</code>: 価格優先順位の3パターン・外税/内税・端数処理</li>
+<li><code>InvoiceGenerationService</code>: 都度/月締め/指定日締めの期間計算・採番ロジック・<code>cancelInvoice</code> のトランザクション整合性（Invoice が CANCELLED になり Order.invoiceId が null に戻ること）</li>
+<li><code>PaymentService</code>: 入金ステータスの全遷移パターン・CANCELLED 請求書への入金拒否（422）</li>
+<li>採番ロジック: 月またぎでのリセット・4桁ゼロ埋め・SequenceNumber 一意性</li>
+</ul>
+<h3 id="統合テストvitest--prisma-テスト用db">統合テスト（Vitest + Prisma テスト用DB）</h3>
+<ul>
+<li><strong>方法</strong>: テスト用 SQLite インメモリDBを使用</li>
+<li><strong>対象</strong>: API Routes の入出力・DB書き込みの整合性・ロール制御</li>
+<li><strong>シナリオ</strong>:</li>
+<li>注文作成 → 注文一覧に反映されること</li>
+<li>請求書生成 → InvoiceItem・Order.invoiceId が正しく設定されること</li>
+<li>入金登録 → Invoice.status が正しく更新されること</li>
+<li>STAFF ロールで OWNER 専用 API（POST /api/invoices 等）を呼ぶ → 403 が返ること</li>
+<li>未認証で保護ルートを呼ぶ → 401 が返ること</li>
+<li>請求書キャンセル → Invoice.status が CANCELLED に・Order.invoiceId が null に戻ること</li>
+</ul>
+<h3 id="e2eテストplaywright">E2Eテスト（Playwright）</h3>
+<ul>
+<li><strong>ツール</strong>: Playwright 1.x</li>
+<li><strong>シナリオ</strong>:</li>
+<li>ログイン（STAFF・OWNER 各ロール）〜ログアウトのフロー</li>
+<li>電話注文入力〜保存〜製造一覧反映のフルフロー</li>
+<li>前回注文コピー機能</li>
+<li>請求書生成〜PDF出力フロー</li>
+<li>入金登録〜領収書PDF出力フロー</li>
+<li>請求書キャンセル〜注文が未請求状態に戻ることの確認</li>
+<li>STAFF ロールで顧客管理ページにアクセス → リダイレクトまたは 403 の確認</li>
+</ul>
+<hr />
+<h2 id="技術的制約">技術的制約</h2>
+<h3 id="環境要件">環境要件</h3>
+<ul>
+<li><strong>OS</strong>: Windows 10/11、macOS 12以降、Ubuntu 20.04以降（Docker 利用で統一）</li>
+<li><strong>最小メモリ</strong>: 2GB（推奨: 4GB以上）</li>
+<li><strong>必要ディスク容量</strong>: 初期 500MB（Node.js モジュール含む）</li>
+<li><strong>必要な外部依存</strong>: Node.js v24.11.0、npm 11.x</li>
+<li><strong>ブラウザ</strong>: Chrome 120以降、Edge 120以降（IE・旧Safariは非対応）</li>
+</ul>
+<h3 id="運用環境の前提">運用環境の前提</h3>
+<ul>
+<li><strong>単店舗LAN内での運用</strong>: Windows PC（またはLinuxサーバー）で <code>next start</code> を常駐起動</li>
+<li><strong>外部インターネット接続</strong>: 不要（LAN内で完結）</li>
+<li><strong>同時接続ユーザー数</strong>: 最大5名程度を想定</li>
+</ul>
+<h3 id="パフォーマンス制約">パフォーマンス制約</h3>
+<ul>
+<li>SQLite は同時書き込みが1プロセスに制限される。電話注文は順次処理が前提のため問題なし</li>
+<li>PDF生成は @react-pdf/renderer をサーバーサイドで実行するため、同時PDF生成は最大2件程度を想定</li>
+<li><strong><code>@react-pdf/renderer</code> は Node.js ランタイム必須</strong>。Edge Runtime では動作しない。PDFを生成するすべての API Route に <code>export const runtime = 'nodejs'</code> を明示的に設定すること</li>
+<li>Auth.js v5（beta）は Next.js 15 との組み合わせで動作確認済みだが、正式リリース版への追随が必要</li>
+</ul>
+<hr />
+<h2 id="依存関係管理">依存関係管理</h2>
+<table>
+<thead>
+<tr>
+<th>ライブラリ</th>
+<th>用途</th>
+<th>バージョン管理方針</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>next</td>
+<td>フレームワーク</td>
+<td><code>^15.0.0</code>（マイナーまで自動）</td>
+</tr>
+<tr>
+<td>next-auth</td>
+<td>認証（Auth.js v5）</td>
+<td><code>5.0.0-beta.*</code>（betaのため固定。正式版リリース時に更新評価）</td>
+</tr>
+<tr>
+<td>react / react-dom</td>
+<td>UIライブラリ</td>
+<td><code>^19.0.0</code></td>
+</tr>
+<tr>
+<td>@prisma/client</td>
+<td>DBクライアント</td>
+<td>固定（<code>5.x.x</code>）。マイグレーションと同期が必要</td>
+</tr>
+<tr>
+<td>prisma</td>
+<td>ORM CLI</td>
+<td>固定（<code>5.x.x</code>）。clientと同バージョンに保つ</td>
+</tr>
+<tr>
+<td>@react-pdf/renderer</td>
+<td>PDF生成</td>
+<td><code>^3.0.0</code>（APIが安定したらマイナーまで自動）</td>
+</tr>
+<tr>
+<td>zod</td>
+<td>バリデーション</td>
+<td><code>^3.0.0</code></td>
+</tr>
+<tr>
+<td>tailwindcss</td>
+<td>CSS</td>
+<td><code>^3.0.0</code></td>
+</tr>
+<tr>
+<td>vitest</td>
+<td>テスト</td>
+<td><code>^2.0.0</code></td>
+</tr>
+<tr>
+<td>playwright</td>
+<td>E2Eテスト</td>
+<td><code>^1.0.0</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>方針</strong>:
+- Prisma は <code>prisma</code> と <code>@prisma/client</code> を必ず同バージョンに固定する（非同期だとマイグレーション不整合が発生）
+- セキュリティパッチは <code>npm audit</code> で定期確認し、脆弱性が出た場合は即時対応
+- メジャーバージョンアップは機能設計書・アーキテクチャ設計書を見直してから実施</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://twitter.com/" target="_blank" rel="noopener" title="mebiusbox2 on Twitter" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/karitonov" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../js/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

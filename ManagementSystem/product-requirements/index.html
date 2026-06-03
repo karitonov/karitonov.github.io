@@ -1,0 +1,2014 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../about/">
+      
+      
+        <link rel="next" href="../functional-design/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>プロダクト要求定義書 - ポートフォリオ</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#プロダクト要求定義書-product-requirements-document" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ポートフォリオ" class="md-header__button md-logo" aria-label="ポートフォリオ" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ポートフォリオ
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              プロダクト要求定義書
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ポートフォリオ" class="md-nav__button md-logo" aria-label="ポートフォリオ" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ポートフォリオ
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    販売管理システム (BentoSales)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    販売管理システム (BentoSales)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    プロダクト要求定義書
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    プロダクト要求定義書
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#プロダクト概要" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プロダクト概要
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="プロダクト概要">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#名称" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        名称
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#プロダクトコンセプト" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プロダクトコンセプト
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#プロダクトビジョン" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プロダクトビジョン
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#目的" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目的
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ターゲットユーザー" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ターゲットユーザー
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ターゲットユーザー">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#プライマリーペルソナ-店舗スタッフ電話注文受付担当" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プライマリーペルソナ: 店舗スタッフ（電話注文受付担当）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#セカンダリーペルソナ-オーナー" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        セカンダリーペルソナ: オーナー
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#成功指標-kpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成功指標 (KPI)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="成功指標 (KPI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#プライマリーkpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プライマリーKPI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#セカンダリーkpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        セカンダリーKPI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#機能要件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        機能要件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="機能要件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#コア機能-mvp--p0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        コア機能 (MVP / P0)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="コア機能 (MVP / P0)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-注文入力" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 注文入力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-注文一覧編集" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 注文一覧・編集
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-商品別集計製造一覧" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 商品別集計（製造一覧）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-顧客管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 顧客管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-商品管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 商品管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-請求管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 請求管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-入金管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 入金管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-pdf帳票出力" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. PDF帳票出力
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#重要機能-p1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        重要機能 (P1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="重要機能 (P1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-ダッシュボード集計" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. ダッシュボード・集計
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-キーボード操作最適化" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. キーボード操作最適化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-インボイス対応帳票" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. インボイス対応帳票
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#将来的な機能-post-mvp--p2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        将来的な機能 (Post-MVP / P2)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="将来的な機能 (Post-MVP / P2)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12-受渡チェック" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 受渡チェック
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-帳票カスタマイズ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. 帳票カスタマイズ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#非機能要件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        非機能要件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="非機能要件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#パフォーマンス" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        パフォーマンス
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ユーザビリティ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ユーザビリティ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#信頼性" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        信頼性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#セキュリティ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        セキュリティ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#スケーラビリティ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        スケーラビリティ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#スコープ外" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        スコープ外
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#業務フロー参考" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        業務フロー（参考）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#データモデル概念" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        データモデル（概念）
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../functional-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    機能設計書
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    アーキテクチャ設計書
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DB設計書
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../repository-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    リポジトリ構成定義書
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../development-guidelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    開発ガイドライン
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    用語集
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    その他の使い方
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    その他の使い方
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/extra1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extra1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#プロダクト概要" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プロダクト概要
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="プロダクト概要">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#名称" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        名称
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#プロダクトコンセプト" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プロダクトコンセプト
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#プロダクトビジョン" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プロダクトビジョン
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#目的" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目的
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ターゲットユーザー" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ターゲットユーザー
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ターゲットユーザー">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#プライマリーペルソナ-店舗スタッフ電話注文受付担当" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プライマリーペルソナ: 店舗スタッフ（電話注文受付担当）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#セカンダリーペルソナ-オーナー" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        セカンダリーペルソナ: オーナー
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#成功指標-kpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成功指標 (KPI)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="成功指標 (KPI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#プライマリーkpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        プライマリーKPI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#セカンダリーkpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        セカンダリーKPI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#機能要件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        機能要件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="機能要件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#コア機能-mvp--p0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        コア機能 (MVP / P0)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="コア機能 (MVP / P0)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-注文入力" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 注文入力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-注文一覧編集" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 注文一覧・編集
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-商品別集計製造一覧" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 商品別集計（製造一覧）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-顧客管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 顧客管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-商品管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 商品管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-請求管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 請求管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-入金管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 入金管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-pdf帳票出力" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. PDF帳票出力
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#重要機能-p1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        重要機能 (P1)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="重要機能 (P1)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9-ダッシュボード集計" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. ダッシュボード・集計
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10-キーボード操作最適化" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. キーボード操作最適化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-インボイス対応帳票" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. インボイス対応帳票
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#将来的な機能-post-mvp--p2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        将来的な機能 (Post-MVP / P2)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="将来的な機能 (Post-MVP / P2)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12-受渡チェック" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 受渡チェック
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-帳票カスタマイズ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. 帳票カスタマイズ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#非機能要件" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        非機能要件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="非機能要件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#パフォーマンス" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        パフォーマンス
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ユーザビリティ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ユーザビリティ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#信頼性" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        信頼性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#セキュリティ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        セキュリティ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#スケーラビリティ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        スケーラビリティ
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#スコープ外" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        スコープ外
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#業務フロー参考" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        業務フロー（参考）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#データモデル概念" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        データモデル（概念）
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="プロダクト要求定義書-product-requirements-document">プロダクト要求定義書 (Product Requirements Document)</h1>
+<h2 id="プロダクト概要">プロダクト概要</h2>
+<h3 id="名称">名称</h3>
+<p><strong>BentoSales</strong> - 仕出し弁当業務に特化した軽量販売管理システム</p>
+<h3 id="プロダクトコンセプト">プロダクトコンセプト</h3>
+<ul>
+<li><strong>電話注文に最適化された高速入力</strong>: 電話を受けながらでも素早く注文を入力できる、画面遷移最小の1画面完結型UI</li>
+<li><strong>注文から請求・入金まで一貫管理</strong>: 注文入力→製造確認→帳票出力→請求→入金登録のすべてを一つのシステムで完結</li>
+<li><strong>顧客ごとの複雑な取引条件に対応</strong>: 単価・税区分・支払方法・締め日が顧客ごとに異なる仕出し業態の商慣行に完全対応</li>
+</ul>
+<h3 id="プロダクトビジョン">プロダクトビジョン</h3>
+<p>仕出し弁当店のオーナーとスタッフが、電話注文受付から請求・入金管理まで、すべての業務をシンプルな一つのWebシステムで完結できる環境を提供する。
+紙やExcelへの手作業転記をなくし、注文ミス・集計ミス・請求漏れをゼロに近づける。
+電話しながら操作できる直感的なUIで、業務の流れを止めることなく素早く入力・確認できる。
+厨房への製造一覧共有から、PDF帳票（請求書・領収書・納品書）の発行まで、仕出し弁当業務に必要な機能を過不足なく提供する。</p>
+<h3 id="目的">目的</h3>
+<ul>
+<li>電話注文の手書きメモ・後から転記というミスが起きやすい業務フローを廃止する</li>
+<li>日々の製造数集計を自動化し、厨房への情報共有をリアルタイムにする</li>
+<li>顧客ごとに異なる請求条件（都度/月締め/指定日締め）に対応した請求書を自動生成する</li>
+<li>売掛管理（未払い・一部入金・入金済）をシステムで一元管理し、入金確認漏れをなくす</li>
+<li>請求書・領収書・納品書・製造一覧をPDFで出力し、帳票管理を効率化する</li>
+</ul>
+<hr />
+<h2 id="ターゲットユーザー">ターゲットユーザー</h2>
+<h3 id="プライマリーペルソナ-店舗スタッフ電話注文受付担当">プライマリーペルソナ: 店舗スタッフ（電話注文受付担当）</h3>
+<ul>
+<li>仕出し弁当店で電話注文を受け付ける担当者（パート・アルバイト含む）</li>
+<li>PC操作は一般レベル（複雑なUIは使いこなせない）</li>
+<li>電話しながら同時に入力するため、画面から目を離せない場面が多い</li>
+<li><strong>課題</strong>: 電話中に商品・数量・顧客情報を聞きながら同時入力するため、画面遷移や複雑な操作があると注文を聞き漏らす</li>
+<li><strong>期待する解決策</strong>: 顧客選択と商品追加が同一画面で完結し、キーボードを主体に高速入力できること</li>
+<li><strong>典型的なワークフロー</strong>: 電話を受ける → 顧客を選択 → 商品と数量を入力（複数行） → 保存 → 次の電話を待つ</li>
+</ul>
+<h3 id="セカンダリーペルソナ-オーナー">セカンダリーペルソナ: オーナー</h3>
+<ul>
+<li>売上管理・請求管理・入金管理を担うオーナーまたは経理担当者</li>
+<li>PC操作は一般レベル</li>
+<li>月次での請求業務と、顧客ごとの売掛状況の確認が主な業務</li>
+<li><strong>課題</strong>: 顧客ごとに締め日・税区分・支払方法が異なるため、請求書作成に毎月多くの時間がかかる。売掛の未入金確認も手作業で漏れが発生する</li>
+<li><strong>期待する解決策</strong>: 顧客設定に基づいて請求書が自動生成され、未入金一覧が一目でわかること</li>
+<li><strong>典型的なワークフロー</strong>: 月末に請求対象を確認 → 請求書PDF発行 → 入金確認後に入金登録 → 領収書PDF発行</li>
+</ul>
+<hr />
+<h2 id="成功指標-kpi">成功指標 (KPI)</h2>
+<h3 id="プライマリーkpi">プライマリーKPI</h3>
+<ul>
+<li><strong>注文入力時間の短縮</strong>: 電話注文1件の入力完了時間を1分以内に短縮（導入3ヶ月後）</li>
+<li>ベースライン計測: 導入前2週間、スタッフが注文1件ごとに所要時間を記録する</li>
+<li><strong>注文内容の誤り削減</strong>: 注文内容・数量・単価の入力ミスが月5件以下になる（導入3ヶ月後）</li>
+<li>ベースライン計測: 導入前1ヶ月の誤り件数を手書きログで記録する</li>
+<li><strong>請求書作成時間の短縮</strong>: 月次請求書作成にかかる時間を30分以内に短縮（導入3ヶ月後）</li>
+<li>ベースライン計測: 導入前の月次請求書作成にかかる時間をオーナーが記録する</li>
+</ul>
+<h3 id="セカンダリーkpi">セカンダリーKPI</h3>
+<ul>
+<li><strong>売掛未回収件数の削減</strong>: 入金確認漏れによる未回収が月0件（導入3ヶ月後）</li>
+<li><strong>PDF帳票の再発行対応時間</strong>: 過去帳票の再発行を30秒以内に完了できる</li>
+<li><strong>システム稼働率</strong>: 99%以上（営業時間内）</li>
+</ul>
+<hr />
+<h2 id="機能要件">機能要件</h2>
+<h3 id="コア機能-mvp--p0">コア機能 (MVP / P0)</h3>
+<h4 id="1-注文入力">1. 注文入力</h4>
+<p><strong>ユーザーストーリー</strong>:
+店舗スタッフとして、電話注文を受けながらミスなく素早く入力するために、1画面で顧客選択と複数商品の注文入力が完結する機能が欲しい</p>
+<p><strong>受け入れ条件</strong>:
+- [ ] 顧客をプルダウンで選択できる（顧客名で検索絞り込み可能）
+- [ ] 商品を行ごとにプルダウンで選択し、数量を入力できる（複数行追加可能）
+- [ ] 顧客設定の単価・税区分に基づいて単価・小計・税額・税込合計が自動計算される
+- [ ] 注文入力中に商品別集計がリアルタイムで更新される
+- [ ] 単価を手動で上書き入力できる（入力値が顧客別単価・標準単価より優先）
+- [ ] 「前回注文コピー」ボタンで同顧客の直近注文内容（商品・数量・単価）をコピーできる
+- [ ] 保存ボタンで注文を確定できる
+- [ ] 適用中の単価種別（手動入力/顧客別単価/商品標準単価）がアイコンまたは色で視覚的に区別できる</p>
+<p><strong>画面レイアウト（参考）</strong>:
+<div class="highlight"><pre><span></span><code>顧客: [山田商事 ▼]  配送日: [2026-05-08 ▼]
+
+------------------------------------------------
+| 商品 ▼      | 単価  | 数量 | 金額  | 削除 |
+------------------------------------------------
+| 唐揚げ弁当 ▼ |  800  |  10  |  8,000|  ×  |
+| 幕の内弁当 ▼ |  900  |   5  |  4,500|  ×  |
+------------------------------------------------
+                          [+ 商品追加]
+
+税抜合計:  12,500
+消費税  :   1,250
+税込合計:  13,750
+
+[前回注文コピー]      [保存]
+</code></pre></div></p>
+<p><strong>優先度</strong>: P0（必須）</p>
+<hr />
+<h4 id="2-注文一覧編集">2. 注文一覧・編集</h4>
+<p><strong>ユーザーストーリー</strong>:
+店舗スタッフとして、当日の注文状況を素早く確認・修正するために、全注文を一覧で表示しインライン編集できる機能が欲しい</p>
+<p><strong>受け入れ条件</strong>:
+- [ ] 指定した日付の注文一覧をグリッド形式で表示できる（顧客名・商品名・単価・数量・金額）
+- [ ] グリッド上で数量・単価を直接編集できる
+- [ ] グリッド上での編集後、グリッド専用の「変更を保存」ボタンを押すことで変更が確定される（セル移動では自動保存しない）
+- [ ] 注文行を削除できる
+- [ ] 日付切替で別日の注文一覧に切り替えられる
+- [ ] 顧客別合計金額が一覧の右下またはサイドパネルに表示される</p>
+<p><strong>優先度</strong>: P0（必須）</p>
+<hr />
+<h4 id="3-商品別集計製造一覧">3. 商品別集計（製造一覧）</h4>
+<p><strong>ユーザーストーリー</strong>:
+店舗スタッフ・厨房担当者として、当日何をいくつ作るかを確認するために、商品別の合計数が一覧で見られる機能が欲しい</p>
+<p><strong>受け入れ条件</strong>:
+- [ ] 指定日の全注文から商品ごとの合計数量を集計して表示できる
+- [ ] 注文の追加・変更・削除に連動してリアルタイムに更新される
+- [ ] PDF（製造一覧）として出力できる</p>
+<p><strong>優先度</strong>: P0（必須）</p>
+<hr />
+<h4 id="4-顧客管理">4. 顧客管理</h4>
+<p><strong>ユーザーストーリー</strong>:
+オーナーとして、顧客ごとの取引条件を管理するために、顧客情報と請求設定を登録・編集できる機能が欲しい</p>
+<p><strong>受け入れ条件</strong>:
+- [ ] 顧客の基本情報（顧客名・電話番号・住所・担当者名・備考）を登録・編集できる
+- [ ] 顧客ごとの税区分（外税・内税）を設定できる
+- [ ] 顧客ごとの支払方法（現金・振込・引落など）を設定できる
+- [ ] 顧客ごとの締め種別（都度・月締め・指定日締め）と締め日を設定できる
+- [ ] 顧客ごとの商品別単価（顧客別単価）を登録できる
+- [ ] 顧客を有効/無効に切り替えられる（無効顧客は注文入力の選択肢に表示しない）</p>
+<p><strong>優先度</strong>: P0（必須）</p>
+<hr />
+<h4 id="5-商品管理">5. 商品管理</h4>
+<p><strong>ユーザーストーリー</strong>:
+オーナーとして、販売商品を管理するために、商品の基本情報を登録・編集できる機能が欲しい</p>
+<p><strong>受け入れ条件</strong>:
+- [ ] 商品名・標準単価・税率・有効/無効を登録・編集できる
+- [ ] 無効にした商品は注文入力の選択肢に表示されない
+- [ ] 商品一覧を表示できる</p>
+<p><strong>優先度</strong>: P0（必須）</p>
+<hr />
+<h4 id="6-請求管理">6. 請求管理</h4>
+<p><strong>ユーザーストーリー</strong>:
+オーナーとして、顧客への請求を正確に行うために、顧客の締め条件に基づいて請求書を生成できる機能が欲しい</p>
+<p><strong>受け入れ条件</strong>:
+- [ ] 顧客の締め種別（都度・月締め・指定日締め）に基づいて請求対象の注文を自動抽出できる
+- [ ] 請求書を手動で生成できる（対象注文を選択して生成）
+- [ ] 請求書番号が自動採番される（例: INV-202605-0001）
+- [ ] 生成した請求書の内容（請求書番号・顧客・対象期間・明細・合計）を確認できる
+- [ ] 請求書をPDFとして出力できる
+- [ ] 請求書の状態（未送付・送付済・入金待ち・入金済）を管理できる
+- [ ] 既に請求書に紐づいた注文は請求書生成時の対象選択に表示されない（未請求の注文のみ選択可能）
+- [ ] 注文一覧で「請求済み / 未請求」が識別できる（バッジまたは色で区別）
+- [ ] 請求書は削除不可。キャンセル操作のみ可能で、キャンセル時は対象注文が未請求状態に戻る</p>
+<p><strong>優先度</strong>: P0（必須）</p>
+<hr />
+<h4 id="7-入金管理">7. 入金管理</h4>
+<p><strong>ユーザーストーリー</strong>:
+オーナーとして、売掛の入金状況を把握するために、請求書ごとの入金登録と売掛一覧を管理できる機能が欲しい</p>
+<p><strong>受け入れ条件</strong>:
+- [ ] 請求書に対して入金額・入金日・入金方法を登録できる
+- [ ] 入金状態（未払い・一部入金・入金済）が自動更新される
+- [ ] 未払い・一部入金の請求書一覧を表示できる（売掛一覧）
+- [ ] 入金済み後に領収書をPDFとして発行できる
+- [ ] 領収書番号が自動採番される（例: REC-202605-0001）</p>
+<p><strong>優先度</strong>: P0（必須）</p>
+<hr />
+<h4 id="8-pdf帳票出力">8. PDF帳票出力</h4>
+<p><strong>ユーザーストーリー</strong>:
+オーナー・スタッフとして、顧客への書類を正確かつ迅速に発行するために、各種帳票をPDFで出力できる機能が欲しい</p>
+<p><strong>受け入れ条件</strong>:
+- [ ] 請求書・領収書・納品書・製造一覧の4種類をPDFで出力できる
+- [ ] 納品書番号が自動採番される（例: DEL-202605-0001）
+- [ ] 過去に発行したPDFを再発行できる
+- [ ] PDFにはプロダクト名・発行日・顧客情報・明細・合計が含まれる</p>
+<p><strong>優先度</strong>: P0（必須）</p>
+<hr />
+<h3 id="重要機能-p1">重要機能 (P1)</h3>
+<h4 id="9-ダッシュボード集計">9. ダッシュボード・集計</h4>
+<p><strong>ユーザーストーリー</strong>:
+オーナーとして、売上状況を把握するために、期間別・顧客別の売上集計を確認できる機能が欲しい</p>
+<p><strong>受け入れ条件</strong>:
+- [ ] 指定期間の売上合計・顧客別売上を確認できる
+- [ ] 売掛残高の合計が確認できる</p>
+<p><strong>優先度</strong>: P1（重要）</p>
+<hr />
+<h4 id="10-キーボード操作最適化">10. キーボード操作最適化</h4>
+<p><strong>ユーザーストーリー</strong>:
+店舗スタッフとして、電話しながら素早く注文を入力するために、マウスなしでキーボードのみで注文入力が完結できる機能が欲しい</p>
+<p><strong>受け入れ条件</strong>:
+- [ ] 注文入力フォーム内でTabキーにより顧客→商品→数量→単価の順にフォーカスが移動する
+- [ ] Enterキーで次の入力行に移動できる
+- [ ] 数量入力後にEnterキーで商品追加行にフォーカスが移る</p>
+<p><strong>優先度</strong>: P1（重要）</p>
+<hr />
+<h4 id="11-インボイス対応帳票">11. インボイス対応帳票</h4>
+<p><strong>ユーザーストーリー</strong>:
+オーナーとして、適格請求書発行事業者として法的に正しい請求書を発行するために、インボイス制度対応フォーマットの帳票が欲しい</p>
+<p><strong>受け入れ条件</strong>:
+- [ ] 請求書に適格請求書発行事業者登録番号（T+13桁）を印字できる
+- [ ] 税率ごとの課税金額・消費税額を区分して記載できる
+- [ ] インボイス制度（適格請求書等保存方式）の記載要件を満たすフォーマットで出力できる</p>
+<p><strong>優先度</strong>: P1（重要）</p>
+<hr />
+<h3 id="将来的な機能-post-mvp--p2">将来的な機能 (Post-MVP / P2)</h3>
+<h4 id="12-受渡チェック">12. 受渡チェック</h4>
+<ul>
+<li>注文ごとの「渡し済み」チェックを管理する軽量な配達確認機能</li>
+</ul>
+<p><strong>優先度</strong>: P2（できれば）</p>
+<hr />
+<h4 id="13-帳票カスタマイズ">13. 帳票カスタマイズ</h4>
+<ul>
+<li>会社ロゴの印字</li>
+<li>印影の印字</li>
+</ul>
+<p><strong>優先度</strong>: P2（できれば）</p>
+<hr />
+<h2 id="非機能要件">非機能要件</h2>
+<h3 id="パフォーマンス">パフォーマンス</h3>
+<ul>
+<li>注文保存のレスポンスタイム: 500ms以内</li>
+<li>注文一覧表示（当日100件以内）: 1秒以内</li>
+<li>商品別集計のリアルタイム更新: 200ms以内</li>
+<li>PDF生成: 3秒以内</li>
+</ul>
+<h3 id="ユーザビリティ">ユーザビリティ</h3>
+<ul>
+<li>初めて使うスタッフが10分以内に注文入力の基本操作を習得できる</li>
+<li>電話中でも片手・目線を電話側に向けた状態でキーボード入力が完結できる</li>
+<li>モバイル対応スコープ: 製造一覧表示のみ（読み取り専用）をスマートフォンのブラウザで正常に表示できること。その他の画面はモバイル最適化の対象外</li>
+</ul>
+<h3 id="信頼性">信頼性</h3>
+<ul>
+<li>注文データのデータ損失ゼロ（データベースへの即時永続化）</li>
+<li>発行済みPDFを再発行できる（帳票履歴の永続保存）</li>
+<li>注文時点での単価・税率・税額を固定保存し、後からの商品単価変更に影響されない</li>
+</ul>
+<h3 id="セキュリティ">セキュリティ</h3>
+<ul>
+<li>ロール分離によるアクセス制御（スタッフ/オーナーの2ロール）</li>
+<li><strong>スタッフ</strong>: 注文入力・注文一覧・製造一覧の閲覧・PDF出力（注文関連のみ）</li>
+<li><strong>オーナー</strong>: 全機能（顧客管理・商品管理・請求管理・入金管理・全帳票出力）</li>
+<li>ユーザー名 + パスワード認証（bcryptによるパスワードハッシュ化）</li>
+<li>セッションタイムアウト: 8時間（営業時間に合わせた設定）</li>
+<li>SQLインジェクション・XSSなどのOWASP Top 10への対策</li>
+</ul>
+<h3 id="スケーラビリティ">スケーラビリティ</h3>
+<ul>
+<li>顧客数: 200社以内を想定</li>
+<li>商品数: 50品目以内を想定</li>
+<li>1日の注文件数: 100件以内を想定</li>
+<li>単店舗向け（マルチテナント不要）</li>
+</ul>
+<hr />
+<h2 id="スコープ外">スコープ外</h2>
+<p>明示的にスコープ外とする項目:</p>
+<ul>
+<li>複数店舗対応（マルチテナント）</li>
+<li>POSシステムとの連携</li>
+<li>在庫管理</li>
+<li>配送ルート管理</li>
+<li>スマートフォン専用アプリ（iOS / Android）</li>
+<li>EC / オンライン注文受付</li>
+<li>給与・人件費管理</li>
+<li>仕入れ管理</li>
+</ul>
+<hr />
+<h2 id="業務フロー参考">業務フロー（参考）</h2>
+<div class="highlight"><pre><span></span><code>顧客登録
+  ↓
+電話注文受付
+  ↓
+注文入力（商品・数量・単価）
+  ↓
+製造一覧確認（厨房共有）
+  ↓
+納品書出力（PDF）
+  ↓
+請求対象選択（締め日に応じて）
+  ↓
+請求書発行（PDF）
+  ↓
+入金登録
+  ↓
+領収書発行（PDF）
+</code></pre></div>
+<hr />
+<h2 id="データモデル概念">データモデル（概念）</h2>
+<div class="highlight"><pre><span></span><code>Customer（顧客）
+  ├─ 基本情報（顧客名・電話番号・住所・担当者名・備考）
+  └─ 取引条件（税区分・支払方法・締め種別・締め日）
+
+Product（商品）
+  └─ 基本情報（商品名・標準単価・税率・有効/無効）
+
+CustomerProductPrice（顧客別単価）
+  └─ Customer × Product の単価設定
+
+Order（注文）
+  └─ OrderItem（注文明細）
+       └─ 注文時点の単価・税率・税額・税区分を固定保存
+
+Invoice（請求書）
+  └─ InvoiceItem（請求明細）
+       └─ 採番（INV-YYYYMM-NNNN）
+
+Payment（入金）
+  └─ Invoice に紐づく入金記録
+
+Receipt（領収書）
+  └─ 採番（REC-YYYYMM-NNNN）
+
+DeliveryNote（納品書）
+  └─ 1件のOrderに紐づく（1注文1納品書）
+  └─ 採番（DEL-YYYYMM-NNNN）
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://twitter.com/" target="_blank" rel="noopener" title="mebiusbox2 on Twitter" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/karitonov" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../js/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
